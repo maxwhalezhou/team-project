@@ -4,7 +4,7 @@ import App from './App';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import firebase from "firebase";
 
-import Login from "./Login";
+import Login, {Join} from "./Login";
 import Featured from "./Featured";
 import IndividualPost from "./IndividualPost";
 import NewPost from "./NewPost";
@@ -32,6 +32,7 @@ ReactDOM.render(
     <Route path="/" component={App} >
       <IndexRoute component={Featured} />
       <Route path="login" component={Login} />
+      <Route path="join" component={Join} />
       <Route path="featured" component={Featured} />
       <Route path="post" component={IndividualPost} />
       <Route path="search" component={Search} />
