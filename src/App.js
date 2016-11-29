@@ -6,14 +6,13 @@ import {Router, Route, browserHistory} from 'react-router';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <div>
+        <header role="banner" className="container">
+          <h1>Our Awesome Website</h1>
+        </header>
+        <div className="container" role="region">
+          {this.props.children}
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
   }
