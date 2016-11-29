@@ -13,7 +13,7 @@ import Saved from "./Saved";
 import Published from "./Published";
 
 //load CSS files
-// import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 
 // Initialize Firebase
@@ -36,6 +36,7 @@ ReactDOM.render(
       <Route path="post" component={IndividualPost} />
       <Route path="search" component={Search} />
       <Route path="saved" component={Saved} />
+      <Route path="newpost" component={NewPost} />
       <Route path="published" component={Published} />
     </Route>
   </Router>,
