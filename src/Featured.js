@@ -63,19 +63,51 @@ class Featured extends React.Component {
     }
 }
 class PostItem extends React.Component {
-
-     render() {
-         var text =this.props.post.text;
-         if(this.props.post.text.length >200){
-             var text = text.substring(0, 200) +"...";
-         }
+    handleClick(){
+      hashHistory.push('/post/'+this.props.key);
+    }
+     getPosts(){
+        //only executes if there is a channel param
+        //getting the last 100 posts
+        var postsRef = firebase.database().ref("Users");  
+        postsRef.on('value', (snapshot) => {
+            var postsArray = []; 
+            //going through posts and pushing the value into array
+            
+            snapshot.forEach(function(child){
+                var postKeys = Object.keys(child.val().published)
+                for(var i= 0 ; i < postKeys.length; i++){
+                    var post = child.val().published[postKeys[i]];
+                    post.key = postKeys[i]; //save the unique id for later
+                    postsArray.push(post);
+                }    
+            });
+            //sorting the array by time
+            //postsArray.sort((a,b) => a.comments.length - b.comments.lengh); //reverse order
+            
+            this.setState({Posts:postsArray});
+            console.log(this.state.Posts);
+        });
+      
+    }
+    
+    render() {
+        var text =this.props.post.text;
+        if(this.props.post.text.length > 1250){
+            var text = text.substring(0, 1250) +"...";
+        }
         return(
-            <div >
-                <h3>{this.props.post.title}</h3>
-                <div >{text}</div>
+            <div className="panel panel-default" onClick={this.handleClick}>
+                <div className="panel-heading">
+                    <h3 className="panel-title">{this.props.post.title}</h3>
+                </div>
+                <div className="panel-body">
+                    {text}
+                </div>
             </div>
             );
     }
 }
 
+export {PostItem};
 export default Featured;
