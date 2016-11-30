@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {Router, Route, hashHistory, Link} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import firebase from "firebase";
 
@@ -24,11 +25,11 @@ class App extends Component {
         <Navbar.Collapse>
           <Nav>
             <NavDropdown title="Navigate" id="basic-nav-dropdown">
-              <MenuItem><Link to={'/featured'}>Featured</Link></MenuItem>
-              <MenuItem><Link to={'/search'}>Search</Link></MenuItem>
-              <MenuItem><Link to={'/saved'}>Saved Posts</Link></MenuItem>
-              <MenuItem><Link to={'/published'}>Published Posts</Link></MenuItem>
-              <MenuItem><Link to={'/newpost'}>Make a New Post!</Link></MenuItem>
+              <LinkContainer to={'/featured'}><MenuItem>Featured</MenuItem></LinkContainer>
+              <LinkContainer to={'/saved'}><MenuItem>Saved Posts</MenuItem></LinkContainer>
+              <LinkContainer to={'/published'}><MenuItem>Published Posts</MenuItem></LinkContainer>
+              <LinkContainer to={'/search'}><MenuItem>Search</MenuItem></LinkContainer>
+              <LinkContainer to={'/newpost'}><MenuItem>Make a New Post!</MenuItem></LinkContainer>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
