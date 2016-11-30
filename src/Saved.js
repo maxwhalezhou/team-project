@@ -65,7 +65,7 @@ class PostList extends React.Component {
 class PostItem extends React.Component {
     constructor(props) {
         super(props);
-        
+
         this.state = { editShow: false };
     }
 
@@ -97,11 +97,11 @@ class EditModal extends React.Component {
     }
 
     updateTitle(event) {
-        this.setState({title: event.target.value});
+        this.setState({ title: event.target.value });
     }
 
     updateText(event) {
-        this.setState({text: event.target.value});
+        this.setState({ text: event.target.value });
     }
 
     editPost(post) {
@@ -111,7 +111,17 @@ class EditModal extends React.Component {
     }
 
     postPost(post) {
-        console.log("Post has been published!");
+        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+        postRef.remove();
+
+        var publishedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published");
+        var publishPost = {
+            text: this.state.text,
+            time: this.props.post.time,
+            title: this.state.title,
+            userId: firebase.auth().currentUser.uid
+        };
+        publishedPostsRef.push(publishPost);
     }
 
     render() {
@@ -126,7 +136,7 @@ class EditModal extends React.Component {
                     <textarea defaultValue={this.props.post.text} onChange={(e) => this.updateText(e)} />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => this.editPost(this.props.post)}>Edit</Button>
+                    <Button onClick={() => this.editPost(this.props.post)}>Save</Button>
                     <Button bsStyle="primary" onClick={() => this.postPost(this.props.post)}>Post</Button>
                 </Modal.Footer>
             </Modal>
