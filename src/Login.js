@@ -132,8 +132,9 @@ class Join extends React.Component {
     this.setState(changes); //update state
   }
   
- signUp(email, password, handle) {
+ signUp(event) {
     /* Create a new user and save their information */
+    event.preventDefault();
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then((firebaseUser) => {
         console.log('user created: '+firebaseUser.uid);
