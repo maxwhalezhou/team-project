@@ -40,7 +40,9 @@ class PostList extends React.Component {
         publishedPostsRef.on("value", (snapshot) => {
             var publishedPostsArray = [];
             snapshot.forEach(function (child) {
-                publishedPostsArray.push(child.val());
+                var post = child.val();
+                post.key = child.key;
+                publishedPostsArray.push(post);
             });
             this.setState({ publishedPosts: publishedPostsArray });
         });
