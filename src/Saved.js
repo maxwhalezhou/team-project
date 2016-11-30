@@ -36,9 +36,9 @@ class PostList extends React.Component {
     }
 
     getPosts() {
-        var savedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved");
+        this.savedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved");
 
-        savedPostsRef.on("value", (snapshot) => {
+        this.savedPostsRef.on("value", (snapshot) => {
             var savedPostsArray = [];
             snapshot.forEach(function(child) {
                 var post = child.val();
@@ -47,6 +47,10 @@ class PostList extends React.Component {
             });
             this.setState({ savedPosts: savedPostsArray });
         });
+    }
+    
+    componentWillUnmount = () => {
+        this.savedPostsRef.off();
     }
 
     render() {
