@@ -6,7 +6,7 @@ class Published extends React.Component {
     render() {
         return (
             <div>
-                <h2>Published</h2>
+                <h2>Published Posts</h2>
                 <div>
                     <PostList />
                 </div>
