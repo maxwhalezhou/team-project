@@ -1,5 +1,6 @@
 import React from "react";
 import { hashHistory, Link } from "react-router";
+import { Modal, Button } from "react-bootstrap";
 import firebase from "firebase";
 
 class Published extends React.Component {
@@ -39,7 +40,7 @@ class PostList extends React.Component {
 
         publishedPostsRef.on("value", (snapshot) => {
             var publishedPostsArray = [];
-            snapshot.forEach(function (child) {
+            snapshot.forEach(function(child) {
                 var post = child.val();
                 post.key = child.key;
                 publishedPostsArray.push(post);
@@ -62,17 +63,52 @@ class PostList extends React.Component {
 }
 
 class PostItem extends React.Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = { editShow: false };
+    }
+
     render() {
         var text = this.props.post.text;
         if (this.props.post.text.length > 200) {
             var text = text.substring(0, 200) + "...";
         }
 
+        let editClose = () => this.setState({ editShow: false });
+
         return (
             <div>
                 <h3>{this.props.post.title}</h3>
                 <div>{text}</div>
+                <Button onClick={() => this.setState({ editShow: true })}>Edit</Button>
+
+                <EditModal post={this.props.post} show={this.state.editShow} onHide={editClose} />
             </div>
+        );
+    }
+}
+
+class EditModal extends React.Component {
+    editPost(post) {
+        console.log("Post has been saved!");
+    }
+
+    render() {
+        return (
+            <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-lg">
+                        <textarea defaultValue={this.props.post.title} />
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <textarea defaultValue={this.props.post.text} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="primary" onClick={() => this.editPost(this.props.post)}>Save</Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 }
