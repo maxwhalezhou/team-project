@@ -69,13 +69,17 @@ class PostItem extends React.Component {
 
     render() {
         var text =this.props.post.text;
-        if(this.props.post.text.length >200){
-            var text = text.substring(0, 200) +"...";
+        if(this.props.post.text.length > 1250){
+            var text = text.substring(0, 1250) +"...";
         }
         return(
-            <div onClick={this.handleClick}>
-                <h3>{this.props.post.title}</h3>
-                <div >{text}</div>
+            <div className="panel panel-default" onClick={this.handleClick}>
+                <div className="panel-heading">
+                    <h3 className="panel-title">{this.props.post.title}</h3>
+                </div>
+                <div className="panel-body">
+                    {text}
+                </div>
             </div>
             );
     }

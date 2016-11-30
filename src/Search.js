@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase";
 import $ from 'jquery';
 import {PostItem} from "./Featured";
+import {IndividualPost} from "./IndividualPost";
 
 //create search box
 class SearchResults extends React.Component {
