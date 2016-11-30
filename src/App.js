@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {Router, Route, hashHistory} from 'react-router';
+import {Router, Route, hashHistory, Link} from 'react-router';
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import firebase from "firebase";
 
@@ -36,21 +36,18 @@ class App extends Component {
       <Navbar inverse collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <a href="#">React-Bootstrap</a>
+            <a href="">React-Bootstrap</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavDropdown eventKey={0} title="Dropdown" id="basic-nav-dropdown">
-              <MenuItem eventKey={1}>Action</MenuItem>
-              <MenuItem eventKey={2}>Another action</MenuItem>
-              <MenuItem eventKey={3}>Something else here</MenuItem>
-              <MenuItem eventKey={4}>Something else here</MenuItem>
-              <MenuItem eventKey={5}>Something else here</MenuItem>
-              <MenuItem eventKey={6}>Something else here</MenuItem>
-              <MenuItem eventKey={7}>Something else here</MenuItem>
-              <MenuItem eventKey={8}>Something else here</MenuItem>
+            <NavDropdown title="Navigate" id="basic-nav-dropdown">
+              <MenuItem><Link to={'/featured'}>Featured</Link></MenuItem>
+              <MenuItem><Link to={'/search'}>Search</Link></MenuItem>
+              <MenuItem><Link to={'/saved'}>Saved Posts</Link></MenuItem>
+              <MenuItem><Link to={'/published'}>Published Posts</Link></MenuItem>
+              <MenuItem><Link to={'/newpost'}>Make a New Post!</Link></MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
