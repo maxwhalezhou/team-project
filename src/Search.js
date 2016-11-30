@@ -16,7 +16,7 @@ class SearchResults extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ value: event.target.value });
+        this.setState({ value: event.target.value.toLowerCase() });
     }
 
     searchPosts() {
@@ -45,7 +45,7 @@ class SearchResults extends React.Component {
 
             //go through all posts and check if they have matching value. if so, add to an array
             for(var i = 0; i < this.state.Posts.length; i++) {
-                console.log(this.state.Posts[i].text.toLowerCase().includes(searchValue));
+                console.log(this.state.Posts[i].text.toLowerCase().includes(searchValue.toLowerCase));
                 if(this.state.Posts[i].text.toLowerCase().includes(searchValue) || this.state.Posts[i].title.toLowerCase().includes(searchValue)) {
                     matchingArray.push(this.state.Posts[i]);
                     console.log("match!" + this.state.Posts[i].text);
