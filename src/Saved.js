@@ -90,8 +90,24 @@ class PostItem extends React.Component {
 }
 
 class EditModal extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { title: this.props.post.title, text: this.props.post.text };
+    }
+
+    updateTitle(event) {
+        this.setState({title: event.target.value});
+    }
+
+    updateText(event) {
+        this.setState({text: event.target.value});
+    }
+
     editPost(post) {
-        console.log("Post has been edited!");
+        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+        postRef.child("title").set(this.state.title);
+        postRef.child("text").set(this.state.text);
     }
 
     postPost(post) {
@@ -103,11 +119,11 @@ class EditModal extends React.Component {
             <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-lg">
-                        <textarea defaultValue={this.props.post.title} />
+                        <textarea defaultValue={this.props.post.title} onChange={(e) => this.updateTitle(e)} />
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <textarea defaultValue={this.props.post.text} />
+                    <textarea defaultValue={this.props.post.text} onChange={(e) => this.updateText(e)} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => this.editPost(this.props.post)}>Edit</Button>
