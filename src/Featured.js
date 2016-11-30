@@ -18,7 +18,7 @@ class Featured extends React.Component {
             }else{
                 unregister();
                 console.log('Auth state changed: logged out');
-                hashHistory.push('/login');
+                hashHistory.push('/login/');
             }
         });
     }
@@ -42,7 +42,6 @@ class Featured extends React.Component {
             //postsArray.sort((a,b) => a.comments.length - b.comments.lengh); //reverse order
             
             this.setState({Posts:postsArray});
-            console.log(this.state.Posts);
         });
       
     }
@@ -63,14 +62,19 @@ class Featured extends React.Component {
     }
 }
 class PostItem extends React.Component {
+    handleClick(e){
+        // var param = this.props.post.key.substring(1,);
+      hashHistory.push('/post/'+this.props.post.key);
+    }
 
-     render() {
-         var text =this.props.post.text;
-         if(this.props.post.text.length >200){
-             var text = text.substring(0, 200) +"...";
-         }
+    render() {
+        var text =this.props.post.text;
+        if(this.props.post.text.length >200){
+            var text = text.substring(0, 200) +"...";
+        }
+        console.log(this.props.post.key);
         return(
-            <div >
+            <div onClick={(e) =>this.handleClick(e)}>
                 <h3>{this.props.post.title}</h3>
                 <div >{text}</div>
             </div>
@@ -78,4 +82,5 @@ class PostItem extends React.Component {
     }
 }
 
+export {PostItem};
 export default Featured;
