@@ -1,15 +1,17 @@
 import React from "react";
 import firebase from "firebase";
 import $ from 'jquery';
+import {PostItem} from "./Featured";
 
 //create search box
-class SearchBox extends React.Component {
+class SearchResults extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             value: '',
-            Posts: []
+            Posts: [],
+            Matching:[]
         }
     }
 
@@ -49,28 +51,30 @@ class SearchBox extends React.Component {
                     console.log("match!" + this.state.Posts[i].text);
                 }
             }
+            this.setState({ Matching: matchingArray});
+            console.log( "matching: " + this.state.Matching);
         });
     }
 
 
     render() {
-        return (
-            <div className="form-group">
-                <form>
-                    <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
-                    <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
-                </form>
-            </div>
-        );
-    }
-}
 
-//create search results
-class SearchResults extends React.Component {
-    render() {
+        var postItems = this.state.Matching.map((post) => {
+        //including channel prop so the post can be edited later 
+        return <PostItem post={post} key={post.key} />
+      });
+
         return (
             <div>
-                SEARCH RESULTS
+                <div className="form-group">
+                    <form>
+                        <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
+                        <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
+                    </form>
+                </div>
+                <div>
+                    {postItems}
+                </div>
             </div>
         );
     }
@@ -82,7 +86,6 @@ class Search extends React.Component {
         return (
             <div>
                 <h1>Search</h1>
-                <SearchBox />
                 <SearchResults />
             </div>
         );

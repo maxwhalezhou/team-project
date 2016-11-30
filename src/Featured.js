@@ -81,4 +81,5 @@ class PostItem extends React.Component {
     }
 }
 
+export {PostItem};
 export default Featured;
