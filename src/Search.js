@@ -1,8 +1,8 @@
 import React from "react";
 import firebase from "firebase";
 import $ from 'jquery';
-import {PostItem} from "./Featured";
-import {IndividualPost} from "./IndividualPost";
+import { PostItem } from "./Featured";
+import { IndividualPost } from "./IndividualPost";
 
 //create search box
 class SearchResults extends React.Component {
@@ -12,7 +12,7 @@ class SearchResults extends React.Component {
         this.state = {
             value: '',
             Posts: [],
-            Matching:[]
+            Matching: []
         }
     }
 
@@ -45,33 +45,32 @@ class SearchResults extends React.Component {
             this.setState({ Posts: postsArray });
 
             //go through all posts and check if they have matching value. if so, add to an array
-            for(var i = 0; i < this.state.Posts.length; i++) {
+            for (var i = 0; i < this.state.Posts.length; i++) {
                 console.log(this.state.Posts[i].text.toLowerCase().includes(searchValue.toLowerCase));
-                if(this.state.Posts[i].text.toLowerCase().includes(searchValue) || this.state.Posts[i].title.toLowerCase().includes(searchValue)) {
+                if (this.state.Posts[i].text.toLowerCase().includes(searchValue) || this.state.Posts[i].title.toLowerCase().includes(searchValue)) {
                     matchingArray.push(this.state.Posts[i]);
                     console.log("match!" + this.state.Posts[i].text);
                 }
             }
-            this.setState({ Matching: matchingArray});
-            console.log( "matching: " + this.state.Matching);
+            this.setState({ Matching: matchingArray });
+            console.log("matching: " + this.state.Matching);
         });
     }
-
 
     render() {
 
         var postItems = this.state.Matching.map((post) => {
-        //including channel prop so the post can be edited later 
-        return <PostItem post={post} key={post.key} />
-      });
+            //including channel prop so the post can be edited later 
+            return <PostItem post={post} key={post.key} />
+        });
 
         return (
             <div>
-                <div className="form-group">
-                    <form>
-                        <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
-                        <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
-                    </form>
+                <div className="input-group">
+                    <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
+                    <span className="input-group-btn">
+                         <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
+                    </span>
                 </div>
                 <div>
                     {postItems}
