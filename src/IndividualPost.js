@@ -97,7 +97,7 @@ class PostForm extends React.Component {
                     <p className="loading">Uploading...</p>
                 }
                 <form className="comment-form">
-                    <textarea placeholder="Type comment here..." name="text" className="post-form form-control" onChange={(e) => this.updateComment(e)}></textarea>
+                    <textarea placeholder="Type comment here..." value={this.state.comment} name="text" className="post-form form-control" onChange={(e) => this.updateComment(e)}></textarea>
                     <div className="form-group send-message">
                         <button className="btn btn-primary" 
                             onClick={(e) => this.postComment(e)} >Post</button>
