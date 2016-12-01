@@ -49,10 +49,12 @@ class Featured extends React.Component {
 
     render() {
 
-        var postItems = this.state.Posts.map((post) => {
-        //including channel prop so the post can be edited later 
-        return <PostItem post={post} key={post.key} />
-      });
+        var postItems = '';
+        if(this.state.Posts){
+            postItems= this.state.Posts.map((post) => {
+                return <PostItem post={post} key={post.key} />
+            });
+        }
         return(
             <div>
                 <h2>Featured Posts</h2>
