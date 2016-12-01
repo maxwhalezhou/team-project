@@ -34,7 +34,9 @@ ReactDOM.render(
       <Route path="login" component={Login} />
       <Route path="join" component={Join} />
       <Route path="featured" component={Featured} />
-      <Route path="post" component={IndividualPost} />
+      <Route path="post" component={IndividualPost} >
+        <Route path=":post" component={IndividualPost} />
+      </Route>
       <Route path="search" component={Search} />
       <Route path="saved" component={Saved} />
       <Route path="newpost" component={NewPost} />
