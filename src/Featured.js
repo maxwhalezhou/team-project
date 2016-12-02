@@ -64,8 +64,9 @@ class Featured extends React.Component {
 }
 class PostItem extends React.Component {
     
-    handleClick(){
-      hashHistory.push('/post/'+this.props.key);
+
+    handleClick(e){
+      hashHistory.push('/post/'+this.props.post.key);
     }
 
     render() {
@@ -75,7 +76,7 @@ class PostItem extends React.Component {
             var text = text.substring(0, 1250) +"...";
         }
         return(
-            <div className="panel panel-default" onClick={this.handleClick}>
+            <div className="panel panel-default" onClick={(e) => this.handleClick(e)}>
                 <div className="panel-heading">
                     <h3 className="panel-title">{this.props.post.title}</h3>
                 </div>
