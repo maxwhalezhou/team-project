@@ -50,11 +50,9 @@ class Featured extends React.Component {
     render() {
 
         var postItems = '';
-        if(this.state.Posts){
             postItems= this.state.Posts.map((post) => {
                 return <PostItem post={post} key={post.key} />
             });
-        }
         return(
             <div>
                 <h2>Featured Posts</h2>
@@ -65,12 +63,14 @@ class Featured extends React.Component {
     }
 }
 class PostItem extends React.Component {
+    
     handleClick(){
       hashHistory.push('/post/'+this.props.key);
     }
 
     render() {
         var text =this.props.post.text;
+        console.log(text);
         if(this.props.post.text.length > 1250){
             var text = text.substring(0, 1250) +"...";
         }
