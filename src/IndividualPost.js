@@ -20,7 +20,7 @@ class IndividualPost extends React.Component {
                 <div>
                 <div>
                     <h2>{this.state.post.title}</h2>
-                    <p>{this.state.post.userId} at {this.state.post.time}</p>
+                    <p>{this.state.post.handle} at {this.state.post.time}</p>
                     <p>{this.state.post.text}</p>
                 </div>
                 <div className="comments-box">
@@ -49,11 +49,13 @@ class IndividualPost extends React.Component {
             //going through posts and pushing the value into array
 
             snapshot.forEach(function (child) {
-                var postKeys = Object.keys(child.val().published)
-                var post = child.val().published[postKey];
-                // post.key = postKey; //save the unique id for later
-                if (post) {
-                    thisPost = post;
+                if(child.val().published){
+                    var postKeys = Object.keys(child.val().published)
+                    var post = child.val().published[postKey];
+                    // post.key = postKey; //save the unique id for later
+                    if (post) {
+                        thisPost = post;
+                    }
                 }
             });
             //sorting the array by time
