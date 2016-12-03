@@ -39,12 +39,14 @@ class NewPost extends React.Component {
     var newPost = {
       text: this.state.post,
       userId: firebase.auth().currentUser.uid, //to look up user info
+       handle: firebase.auth().currentUser.displayName,
       time: firebase.database.ServerValue.TIMESTAMP, //MAGIC
       title: this.state.title
     };
     postsRef.push(newPost).then((response) => { this.setState({ loading: false }) }); //upload
 
     this.setState({ post: '', title: '' }); //empty out post (controlled input)
+    hashHistory.push('/published');
   }
   savePost(event) {
     event.preventDefault(); //don't submit
@@ -61,6 +63,7 @@ class NewPost extends React.Component {
     postsRef.push(newPost).then((response) => { this.setState({ loading: false }) }); //upload
 
     this.setState({ post: '', title: '' }); //empty out post (controlled input)
+     hashHistory.push('/saved');
   }
 
   // how to display
