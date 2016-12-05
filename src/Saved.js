@@ -88,7 +88,7 @@ class PostItem extends React.Component {
                     <div className="panel-heading">
                         <h3 className="panel-title">{this.props.post.title}</h3>
                     </div>
-                    <div className="panel-body">
+                    <div className="panel-body white-space">
                         {text}
                     </div>
                     <div className="panel-footer">
@@ -111,10 +111,6 @@ class EditModal extends React.Component {
         this.state = { title: this.props.post.title, text: this.props.post.text, saved: false };
     }
 
-    updateSaved() {
-        this.setState({ saved: false });
-    }
-
     updateTitle(event) {
         this.setState({ title: event.target.value });
     }
@@ -128,6 +124,9 @@ class EditModal extends React.Component {
         postRef.child("title").set(this.state.title);
         postRef.child("text").set(this.state.text);
         this.setState({ saved: true });
+        window.setTimeout(() => {
+            this.setState({ saved: false });
+        }, 2000);
     }
 
     postPost(post) {
@@ -161,7 +160,7 @@ class EditModal extends React.Component {
                         </Alert>
                     }
                 </Modal.Body>
-                <Modal.Footer onClick={() => this.updateSaved()}>
+                <Modal.Footer>
                     <Button onClick={() => this.editPost(this.props.post)}>Save</Button>
                     <Button bsStyle="primary" onClick={() => this.postPost(this.props.post)}>Post</Button>
                 </Modal.Footer>
