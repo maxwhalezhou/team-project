@@ -86,7 +86,7 @@ class PostForm extends React.Component {
         var newComment = {
             text: this.state.comment,
             userId: firebase.auth().currentUser.uid, //to look up user info
-            name: firebase.auth().currentUser.displayName, //to look up user info
+            handle: firebase.auth().currentUser.displayName, //to look up user info
             time: firebase.database.ServerValue.TIMESTAMP, //MAGIC
         };
         commentsRef.push(newComment).then((response) => { this.setState({ loading: false }) }); //upload
@@ -175,7 +175,7 @@ class CommentItem extends React.Component {
         return (
             <div className="panel panel-default panel-info">
                 <div className="panel-heading">
-                    <p className="panel-title">{this.props.comment.name || this.props.comment.userId} 
+                    <p className="panel-title">{this.props.comment.handle || this.props.comment.userId} 
                         { this.props.comment.editTime === undefined &&
                         <span> Posted <Time value={this.props.comment.time} relative /></span>
                         }
