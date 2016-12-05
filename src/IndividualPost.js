@@ -21,7 +21,7 @@ class IndividualPost extends React.Component {
                 <div>
                     <h2>{this.state.post.title}</h2>
                     <p>{this.state.post.handle} at {this.state.post.time}</p>
-                    <p>{this.state.post.text}</p>
+                    <p className="white-space">{this.state.post.text}</p>
                 </div>
                 <div className="comments-box">
                     <PostForm post={this.props.params.post} writer={this.state.post.userId} />

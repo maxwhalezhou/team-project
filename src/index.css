@@ -11,3 +11,7 @@ body {
 textarea {
   resize: vertical;
 }
+
+.white-space {
+  white-space: pre-line;
+}
