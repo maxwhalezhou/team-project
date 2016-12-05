@@ -3,7 +3,7 @@ import firebase from "firebase";
 import $ from 'jquery';
 import { PostItem } from "./Featured";
 import { IndividualPost } from "./IndividualPost";
-import {hashHistory} from "react-router";
+import { hashHistory } from "react-router";
 //create search box
 class SearchResults extends React.Component {
 
@@ -12,7 +12,8 @@ class SearchResults extends React.Component {
         this.state = {
             value: '',
             Posts: [],
-            Matching: []
+            Matching: [],
+            searched: false
         }
     }
 
@@ -21,11 +22,11 @@ class SearchResults extends React.Component {
     }
 
     componentDidMount() {
-    /* Add a listener and callback for authentication events */
+        /* Add a listener and callback for authentication events */
         var unregister = firebase.auth().onAuthStateChanged(user => {
-            if(user) {
+            if (user) {
                 console.log('Auth state changed: logged in as', user.email);
-            }else{
+            } else {
                 unregister();
                 console.log('Auth state changed: logged out');
                 hashHistory.push('/login/');
@@ -36,7 +37,7 @@ class SearchResults extends React.Component {
         //only executes if there is a channel param
         //getting the last 100 posts
         var searchValue = this.state.value;
-        console.log(searchValue);
+        this.setState({ searched: true});
         var matchingArray = [];
         var postsRef = firebase.database().ref("Users");
         postsRef.on('value', (snapshot) => {
@@ -76,19 +77,37 @@ class SearchResults extends React.Component {
             return <PostItem post={post} key={post.key} />
         });
 
-        return (
-            <div>
-                <div className="input-group">
-                    <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
-                    <span className="input-group-btn">
-                         <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
-                    </span>
-                </div>
+        if (!this.state.searched || postItems.length > 0) {
+            return (
                 <div>
-                    {postItems}
+                    <div className="input-group">
+                        <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
+                        <span className="input-group-btn">
+                            <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
+                        </span>
+                    </div>
+                    <div>
+                        {postItems}
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            return (
+                <div>
+                    <div className="input-group">
+                        <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
+                        <span className="input-group-btn">
+                            <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
+                        </span>
+                    </div>
+                    <div>
+                        <h3>
+                          No search results found!
+                        </h3>
+                    </div>
+                </div>
+            );
+        }
     }
 }
 
