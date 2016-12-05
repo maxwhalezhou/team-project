@@ -40,7 +40,7 @@ class App extends Component {
           <Navbar collapseOnSelect>
             <Navbar.Header>
               <Navbar.Brand>
-                  <a href="#">Our Awesome Webpage</a>
+                  <a href="#">The Damaged Blue Zone</a>
               </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>
