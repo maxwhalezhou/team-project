@@ -93,7 +93,7 @@ class PostItem extends React.Component {
                     </div>
                     <div className="panel-footer">
                         <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button>
-                        <Button bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
+                        <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
                     </div>
                 </div>
 
@@ -181,15 +181,15 @@ class DeleteModal extends React.Component {
             <Modal {...this.props} bsSize="small" aria-labelledby="contained-modal-title-sm">
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-sm">
-                        <h4>Deleting "{this.props.post.title}"</h4>
+                        Deleting "{this.props.post.title}"
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     Are you sure?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => this.deletePost(this.props.post)}>Yes</Button>
-                    <Button bsStyle="primary" onClick={this.props.onHide}>No</Button>
+                    <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)}>Yes</Button>
+                    <Button onClick={this.props.onHide}>No</Button>
                 </Modal.Footer>
             </Modal>
         );
