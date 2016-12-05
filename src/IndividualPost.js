@@ -1,5 +1,6 @@
 import React from "react";
 import { hashHistory, Link } from "react-router";
+import { Modal, Button, Alert } from "react-bootstrap";
 import firebase from "firebase";
 import Time from "react-time";
 
@@ -155,7 +156,7 @@ class CommentList extends React.Component {
         /* Create a list of <CommentItem /> objects */
         var commentItems = this.state.comments.map((comment) => {
             return <CommentItem aria-label="comment" comment={comment}
-                post={this.props.post} />
+                post={this.props.post} postWriter={this.props.writer} />
         });
         
         return (<div>{commentItems}</div>);
@@ -165,16 +166,120 @@ class CommentList extends React.Component {
 class CommentItem extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {editing: false, newComment: ""};
+        this.state = {editShow: false, deleteShow: false};
     }
 
     render() {
+        // let editClose = () => this.setState({ editShow: false });
+        let deleteClose = () => this.setState({ deleteShow: false });
+
         return (
-            <div className="comment-box">
-                <p className="comment-user">by {this.props.comment.name || this.props.comment.userId}</p>
-                <p className="comment-time">Posted <Time value={this.props.comment.time} relative /></p>
-                <p className="comment-text white-space">{this.props.comment.text}</p>
+            <div className="panel panel-default panel-info">
+                <div className="panel-heading">
+                    <p className="panel-title">{this.props.comment.name || this.props.comment.userId} Posted <Time value={this.props.comment.time} relative /></p>
+                </div>
+                <div className="panel-body white-space">
+                    <p className="comment-text white-space">{this.props.comment.text}</p>
+                </div>
+
+
+                   <div className="panel-footer">
+                        {/** <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button> */}
+                        <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
+                    </div>
+
+                 {/** <EditModal post={this.props.post} comment={this.props.comment} show={this.state.editShow} onHide={editClose} />*/}
+                 <DeleteModal post={this.props.post} postWriter={this.props.postWriter} comment={this.props.comment} show={this.state.deleteShow} onHide={deleteClose} />
+
             </div>
+        );
+    }
+}
+// class EditModal extends React.Component {
+//     constructor(props) {
+//         super(props);
+
+//         this.state = { text: this.props.comment.text, edited: false };
+//     }
+
+//     updateedited() {
+//         this.setState({ edited: false });
+//     }
+
+//     updateText(event) {
+//         this.setState({ text: event.target.value });
+//     }
+
+//     editPost(post) {
+//         var postRef = firebase.database().ref("Users/" + this.props.post.userId + "/published/" + this.props.post.key + "/comments/" + this.props.comment.key);
+//         postRef.child("text").set(this.state.text);
+//         this.setState({ edited: true });
+//     }
+
+//     // postPost(post) {
+//     //     var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+//     //     postRef.remove();
+
+//     //     var publishedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published");
+//     //     var publishPost = {
+//     //         handle: firebase.auth().currentUser.displayName,
+//     //         text: this.state.text,
+//     //         time: this.props.post.time,
+//     //         title: this.state.title,
+//     //         userId: firebase.auth().currentUser.uid
+//     //     };
+//     //     publishedPostsRef.push(publishPost);
+//     // }
+
+//     render() {
+//         return (
+//             <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+//                 <Modal.Header closeButton>
+//                     <Modal.Title id="contained-modal-title-lg">
+//                         <p className="post-form form-control input-lg" >{this.props.comment.handle}</p>
+//                     </Modal.Title>
+//                 </Modal.Header>
+//                 <Modal.Body>
+//                     <textarea defaultValue={this.props.comment.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
+//                     {this.state.edited &&
+//                         <Alert bsStyle="success">
+//                             <strong>Edited!</strong>
+//                         </Alert>
+//                     }
+//                 </Modal.Body>
+//                 <Modal.Footer onClick={() => this.updateEdited()}>
+//                     <Button onClick={() => this.editPost(this.props.comment)}>Save</Button>
+//                 {/*   <Button bsStyle="primary" onClick={() => this.postPost(this.props.comment)}>Post</Button> */} 
+//                 </Modal.Footer>
+//             </Modal>
+//         );
+//     }
+// }
+
+class DeleteModal extends React.Component {
+    deleteComment() {
+        console.log("Users/" + this.props.postWriter + "/published/" + this.props.post + "/comments/" + this.props.comment.key);
+        var commentRef = firebase.database().ref("Users/" + this.props.postWriter + "/published/" + this.props.post + "/comments/" + this.props.comment.key);
+        commentRef.remove();
+    }
+
+    render() {
+        console.log("post writer!", this.props.postWriter);
+        return (
+            <Modal {...this.props} bsSize="small" aria-labelledby="contained-modal-title-sm">
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-sm">
+                        Deleting a comment: "{this.props.comment.text}"
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="danger" onClick={() => this.deleteComment()}>Yes</Button>
+                    <Button onClick={this.props.onHide}>No</Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 }
