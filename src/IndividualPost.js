@@ -20,8 +20,8 @@ class IndividualPost extends React.Component {
                 <div>
                 <div>
                     <h2>{this.state.post.title}</h2>
-                    <p>{this.state.post.userId} at {this.state.post.time}</p>
-                    <p>{this.state.post.text}</p>
+                    <p>{this.state.post.handle} at {this.state.post.time}</p>
+                    <p className="white-space">{this.state.post.text}</p>
                 </div>
                 <div className="comments-box">
                     <PostForm post={this.props.params.post} writer={this.state.post.userId} />
@@ -49,11 +49,13 @@ class IndividualPost extends React.Component {
             //going through posts and pushing the value into array
 
             snapshot.forEach(function (child) {
-                var postKeys = Object.keys(child.val().published)
-                var post = child.val().published[postKey];
-                // post.key = postKey; //save the unique id for later
-                if (post) {
-                    thisPost = post;
+                if(child.val().published){
+                    var postKeys = Object.keys(child.val().published)
+                    var post = child.val().published[postKey];
+                    // post.key = postKey; //save the unique id for later
+                    if (post) {
+                        thisPost = post;
+                    }
                 }
             });
             //sorting the array by time
@@ -171,7 +173,7 @@ class CommentItem extends React.Component {
             <div className="comment-box">
                 <p className="comment-user">by {this.props.comment.name || this.props.comment.userId}</p>
                 <p className="comment-time">Posted <Time value={this.props.comment.time} relative /></p>
-                <p className="comment-text">{this.props.comment.text}</p>
+                <p className="comment-text white-space">{this.props.comment.text}</p>
             </div>
         );
     }

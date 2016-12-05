@@ -7,3 +7,11 @@ body {
 .comment-box {
   border: black solid 1px;
 }
+
+textarea {
+  resize: vertical;
+}
+
+.white-space {
+  white-space: pre-line;
+}

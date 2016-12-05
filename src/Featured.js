@@ -31,15 +31,35 @@ class Featured extends React.Component {
             //going through posts and pushing the value into array
             
             snapshot.forEach(function(child){
-                var postKeys = Object.keys(child.val().published)
-                for(var i= 0 ; i < postKeys.length; i++){
-                    var post = child.val().published[postKeys[i]];
-                    post.key = postKeys[i]; //save the unique id for later
-                    postsArray.push(post);
-                }    
+                console.log(child.val());
+                if(child.val().published){
+                    var postKeys = Object.keys(child.val().published)
+                    for(var i= 0 ; i < postKeys.length; i++){
+                        var post = child.val().published[postKeys[i]];
+                        post.key = postKeys[i]; //save the unique id for later
+                        postsArray.push(post);
+                    }   
+                } 
             });
             //sorting the array by time
-            //postsArray.sort((a,b) => a.comments.length - b.comments.lengh); //reverse order
+            //postsArray.sort((a,b) => a.comments.length - b.comments.length); //reverse order
+             postsArray.sort(function(a, b) {
+                 var A= a.comments;
+                 var B= b.comments;
+                if (A === undefined && B === undefined) {
+                    return 0;
+                }else if(A === undefined ){
+                    return 1;
+                }else if(B === undefined){
+                    return -1;
+                }else if(A.length < B.length ){
+                    return 1;
+                }else if(A.length > B.length ){
+                    return -1;
+                }
+                // names must be equal
+                return 0;
+                });
             
             this.setState({Posts:postsArray});
             console.log(this.state.Posts);
@@ -64,6 +84,7 @@ class Featured extends React.Component {
 }
 class PostItem extends React.Component {
     
+
     handleClick(e){
       hashHistory.push('/post/'+this.props.post.key);
     }

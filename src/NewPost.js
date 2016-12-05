@@ -8,18 +8,18 @@ class NewPost extends React.Component {
     this.state = { post: '', title: '', loading: false };
   }
 
-    componentDidMount() {
+  componentDidMount() {
     /* Add a listener and callback for authentication events */
-        var unregister = firebase.auth().onAuthStateChanged(user => {
-            if(user) {
-                console.log('Auth state changed: logged in as', user.email);
-            }else{
-                unregister();
-                console.log('Auth state changed: logged out');
-                hashHistory.push('/login/');
-            }
-        });
-    }
+    var unregister = firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log('Auth state changed: logged in as', user.email);
+      } else {
+        unregister();
+        console.log('Auth state changed: logged out');
+        hashHistory.push('/login/');
+      }
+    });
+  }
 
   //when the text in the form changes
   updatePost(event) {
@@ -39,12 +39,14 @@ class NewPost extends React.Component {
     var newPost = {
       text: this.state.post,
       userId: firebase.auth().currentUser.uid, //to look up user info
+      handle: firebase.auth().currentUser.displayName,
       time: firebase.database.ServerValue.TIMESTAMP, //MAGIC
       title: this.state.title
     };
     postsRef.push(newPost).then((response) => { this.setState({ loading: false }) }); //upload
 
     this.setState({ post: '', title: '' }); //empty out post (controlled input)
+    hashHistory.push('/published');
   }
   savePost(event) {
     event.preventDefault(); //don't submit
@@ -61,6 +63,7 @@ class NewPost extends React.Component {
     postsRef.push(newPost).then((response) => { this.setState({ loading: false }) }); //upload
 
     this.setState({ post: '', title: '' }); //empty out post (controlled input)
+    hashHistory.push('/saved');
   }
 
   // how to display
@@ -72,16 +75,14 @@ class NewPost extends React.Component {
           <p className="loading">Uploading...</p>
         }
         <form className="message-input" role="form">
-          <textarea placeholder="Type title here..." name="text" className="post-form form-control" onChange={(e) => this.updateTitle(e)}></textarea>
-          <textarea placeholder="Type post here..." name="text" className="post-form form-control" onChange={(e) => this.updatePost(e)}></textarea>
+          <input placeholder="Type title here..." name="input" className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
+          <textarea placeholder="Type post here..." name="text" className="post-form form-control" onChange={(e) => this.updatePost(e)} />
           <div className="form-group send-message">
             {/* Disable if invalid post length */}
+            <button className="btn btn-default" disabled={this.state.post.length === 0 || this.state.loading}
+              onClick={(e) => this.savePost(e)} >Save</button>
             <button className="btn btn-primary" disabled={this.state.post.length === 0 || this.state.loading}
               onClick={(e) => this.postPost(e)} >Post</button>
-            <button className="btn btn-primary" disabled={this.state.post.length === 0 || this.state.loading}
-              onClick={(e) => this.savePost(e)} >
-              <i className="fa fa-pencil-square-o" aria-hidden="true"></i> Save
-            </button>
           </div>
         </form>
       </div>
