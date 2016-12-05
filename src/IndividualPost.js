@@ -20,7 +20,7 @@ class IndividualPost extends React.Component {
                 <div>
                 <div>
                     <h2>{this.state.post.title}</h2>
-                    <p>{this.state.post.handle} at {this.state.post.time}</p>
+                    <p>{this.state.post.handle} at <Time value={this.state.post.time} relative /></p>
                     <p className="white-space">{this.state.post.text}</p>
                 </div>
                 <div className="comments-box">

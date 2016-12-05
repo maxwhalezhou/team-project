@@ -74,9 +74,11 @@ class NewPost extends React.Component {
         {this.state.loading &&
           <p className="loading">Uploading...</p>
         }
-        <form className="message-input" role="form">
-          <input placeholder="Type title here..." name="input" className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
-          <textarea placeholder="Type post here..." name="text" className="post-form form-control" onChange={(e) => this.updatePost(e)} />
+        <form className="message-input form-group" role="form">
+          <label for='title'>Title</label>
+          <input  id='title' placeholder="Type title here..." name="input" className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
+          <textarea placeholder="Type post here..." name="text" className="post-form form-control" onChange={(e) => this.updatePost(e)} rows="5"/>
+
           <div className="form-group send-message">
             {/* Disable if invalid post length */}
             <button className="btn btn-default" disabled={this.state.post.length === 0 || this.state.loading}

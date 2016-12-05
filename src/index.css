@@ -15,3 +15,7 @@ textarea {
 .white-space {
   white-space: pre-line;
 }
+
+#title{
+  margin-bottom: 20px;
+}

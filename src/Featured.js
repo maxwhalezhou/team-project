@@ -1,5 +1,6 @@
 import React from "react";
 import { hashHistory, Link } from "react-router";
+import {Button} from "react-bootstrap";
 import firebase from "firebase";
 
 class Featured extends React.Component {
@@ -31,7 +32,6 @@ class Featured extends React.Component {
             //going through posts and pushing the value into array
             
             snapshot.forEach(function(child){
-                console.log(child.val());
                 if(child.val().published){
                     var postKeys = Object.keys(child.val().published)
                     for(var i= 0 ; i < postKeys.length; i++){
@@ -62,7 +62,6 @@ class Featured extends React.Component {
                 });
             
             this.setState({Posts:postsArray});
-            console.log(this.state.Posts);
         });
       
     }
@@ -91,17 +90,19 @@ class PostItem extends React.Component {
 
     render() {
         var text =this.props.post.text;
-        console.log(text);
-        if(this.props.post.text.length > 1250){
-            var text = text.substring(0, 1250) +"...";
+        if(this.props.post.text.length > 250){
+            text = text.substring(0, 250) +"...";
         }
         return(
-            <div className="panel panel-default" onClick={(e) => this.handleClick(e)}>
+            <div className="panel panel-default panel-info">
                 <div className="panel-heading">
                     <h3 className="panel-title">{this.props.post.title}</h3>
                 </div>
-                <div className="panel-body">
+                <div className="panel-body white-space">
                     {text}
+                </div>
+                <div className="panel-footer">
+                        <Button bsSize="small" bsStyle='primary' onClick={(e) => this.handleClick(e)}>Read More</Button>
                 </div>
             </div>
             );
