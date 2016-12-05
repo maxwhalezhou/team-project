@@ -100,13 +100,12 @@ class PostForm extends React.Component {
                 {this.state.loading &&
                     <p className="loading">Uploading...</p>
                 }
-                <form className="comment-form">
-                    <textarea placeholder="Type comment here..." value={this.state.comment} name="text" className="post-form form-control" onChange={(e) => this.updateComment(e)}></textarea>
-                    <div className="form-group send-message">
-                        <button className="btn btn-primary" 
-                            onClick={(e) => this.postComment(e)} >Post</button>
-                    </div>
-                </form>
+                <div className="input-group">
+                    <textarea type="text" placeholder="Type comment here..." value={this.state.comment} className="form-control" onChange={(e) => this.updateComment(e)}></textarea>
+                    <span className="input-group-btn">
+                        <button className="btn btn-primary" onClick={(e) => this.postComment(e)} >Post</button>
+                    </span>
+                </div>
             </div>
         );
     }
@@ -170,91 +169,84 @@ class CommentItem extends React.Component {
     }
 
     render() {
-        // let editClose = () => this.setState({ editShow: false });
+        let editClose = () => this.setState({ editShow: false });
         let deleteClose = () => this.setState({ deleteShow: false });
 
         return (
             <div className="panel panel-default panel-info">
                 <div className="panel-heading">
-                    <p className="panel-title">{this.props.comment.name || this.props.comment.userId} Posted <Time value={this.props.comment.time} relative /></p>
+                    <p className="panel-title">{this.props.comment.name || this.props.comment.userId} 
+                        { this.props.comment.editTime === undefined &&
+                        <span> Posted <Time value={this.props.comment.time} relative /></span>
+                        }
+                        { this.props.comment.editTime &&
+                        <span> Edited <Time value={this.props.comment.editTime} relative /></span>
+                        }
+                    </p>
                 </div>
                 <div className="panel-body white-space">
                     <p className="comment-text white-space">{this.props.comment.text}</p>
                 </div>
-
-
-                   <div className="panel-footer">
-                        {/** <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button> */}
+                {this.props.comment.userId === firebase.auth().currentUser.uid &&
+                    <div className="panel-footer">
+                        <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button>
                         <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
                     </div>
+                }
 
-                 {/** <EditModal post={this.props.post} comment={this.props.comment} show={this.state.editShow} onHide={editClose} />*/}
-                 <DeleteModal post={this.props.post} postWriter={this.props.postWriter} comment={this.props.comment} show={this.state.deleteShow} onHide={deleteClose} />
-
+                <div className="modals">
+                    <EditModal post={this.props.post} postWriter={this.props.postWriter} comment={this.props.comment} show={this.state.editShow} onHide={editClose} />
+                    <DeleteModal post={this.props.post} postWriter={this.props.postWriter} comment={this.props.comment} show={this.state.deleteShow} onHide={deleteClose} />
+                </div>
             </div>
         );
     }
 }
-// class EditModal extends React.Component {
-//     constructor(props) {
-//         super(props);
+class EditModal extends React.Component {
+    constructor(props) {
+        super(props);
 
-//         this.state = { text: this.props.comment.text, edited: false };
-//     }
+        this.state = { text: this.props.comment.text, edited: false };
+    }
 
-//     updateedited() {
-//         this.setState({ edited: false });
-//     }
+    updateText(event) {
+        this.setState({ text: event.target.value });
+    }
 
-//     updateText(event) {
-//         this.setState({ text: event.target.value });
-//     }
+    editPost() {
+        var commentRef = firebase.database().ref("Users/" + this.props.postWriter + "/published/" + this.props.post + "/comments/" + this.props.comment.key);
+        commentRef.child("text").set(this.state.text);
+        commentRef.child("editTime").set(firebase.database.ServerValue.TIMESTAMP);
+        this.setState({ edited: true });
+        window.setTimeout(() => {
+            this.setState({ edited: false });
+        }, 1500);
+    }
 
-//     editPost(post) {
-//         var postRef = firebase.database().ref("Users/" + this.props.post.userId + "/published/" + this.props.post.key + "/comments/" + this.props.comment.key);
-//         postRef.child("text").set(this.state.text);
-//         this.setState({ edited: true });
-//     }
-
-//     // postPost(post) {
-//     //     var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
-//     //     postRef.remove();
-
-//     //     var publishedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published");
-//     //     var publishPost = {
-//     //         handle: firebase.auth().currentUser.displayName,
-//     //         text: this.state.text,
-//     //         time: this.props.post.time,
-//     //         title: this.state.title,
-//     //         userId: firebase.auth().currentUser.uid
-//     //     };
-//     //     publishedPostsRef.push(publishPost);
-//     // }
-
-//     render() {
-//         return (
-//             <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
-//                 <Modal.Header closeButton>
-//                     <Modal.Title id="contained-modal-title-lg">
-//                         <p className="post-form form-control input-lg" >{this.props.comment.handle}</p>
-//                     </Modal.Title>
-//                 </Modal.Header>
-//                 <Modal.Body>
-//                     <textarea defaultValue={this.props.comment.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
-//                     {this.state.edited &&
-//                         <Alert bsStyle="success">
-//                             <strong>Edited!</strong>
-//                         </Alert>
-//                     }
-//                 </Modal.Body>
-//                 <Modal.Footer onClick={() => this.updateEdited()}>
-//                     <Button onClick={() => this.editPost(this.props.comment)}>Save</Button>
-//                 {/*   <Button bsStyle="primary" onClick={() => this.postPost(this.props.comment)}>Post</Button> */} 
-//                 </Modal.Footer>
-//             </Modal>
-//         );
-//     }
-// }
+    render() {
+        return (
+            <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-lg">
+                        <p>Edit</p>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <textarea defaultValue={this.props.comment.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
+                    {this.state.edited &&
+                        <Alert bsStyle="success">
+                            <strong>Edited!</strong>
+                        </Alert>
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button bsStyle="primary" onClick={() => this.editPost()}>Save</Button>
+                    <Button onClick={this.props.onHide}>Cancel</Button>
+                </Modal.Footer>
+            </Modal>
+        );
+    }
+}
 
 class DeleteModal extends React.Component {
     deleteComment() {
