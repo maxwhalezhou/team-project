@@ -83,6 +83,7 @@ class PostForm extends React.Component {
         var newComment = {
             text: this.state.comment,
             userId: firebase.auth().currentUser.uid, //to look up user info
+            name: firebase.auth().currentUser.displayName, //to look up user info
             time: firebase.database.ServerValue.TIMESTAMP, //MAGIC
         };
         commentsRef.push(newComment).then((response) => { this.setState({ loading: false }) }); //upload
@@ -168,7 +169,7 @@ class CommentItem extends React.Component {
     render() {
         return (
             <div className="comment-box">
-                <p className="comment-user">by {this.props.comment.userId}</p>
+                <p className="comment-user">by {this.props.comment.name || this.props.comment.userId}</p>
                 <p className="comment-time">Posted <Time value={this.props.comment.time} relative /></p>
                 <p className="comment-text">{this.props.comment.text}</p>
             </div>
