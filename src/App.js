@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Router, Route, hashHistory, Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
@@ -41,7 +40,7 @@ class App extends Component {
           <Navbar collapseOnSelect>
             <Navbar.Header>
               <Navbar.Brand>
-                  <a href="#">Our Awesome Webpage</a>
+                  <a href="#">The Damaged Blue Zone</a>
               </Navbar.Brand>
               <Navbar.Toggle />
             </Navbar.Header>

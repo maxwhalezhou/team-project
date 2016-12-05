@@ -35,7 +35,6 @@ class SearchResults extends React.Component {
         //only executes if there is a channel param
         //getting the last 100 posts
         var searchValue = this.state.value;
-        this.setState({ searched: true});
         var matchingArray = [];
         var postsRef = firebase.database().ref("Users");
         postsRef.on('value', (snapshot) => {
@@ -61,49 +60,37 @@ class SearchResults extends React.Component {
                     matchingArray.push(this.state.Posts[i]);
                 }
             }
-            this.setState({ Matching: matchingArray });
+            this.setState({ Matching: matchingArray, searched: true });
         });
     }
 
     render() {
 
-        var postItems = this.state.Matching.map((post) => {
+        var postItems ='';
+        if(this.state.Matching.length > 0){
+            postItems = this.state.Matching.map((post) => {
             //including channel prop so the post can be edited later 
-            return <PostItem post={post} key={post.key} />
-        });
-
-        if (!this.state.searched || postItems.length > 0) {
-            return (
-                <div>
-                    <div className="input-group">
-                        <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
-                        <span className="input-group-btn">
-                            <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
-                        </span>
-                    </div>
-                    <div>
-                        {postItems}
-                    </div>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <div className="input-group">
-                        <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
-                        <span className="input-group-btn">
-                            <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
-                        </span>
-                    </div>
-                    <div>
-                        <h3>
-                          No search results found!
-                        </h3>
-                    </div>
-                </div>
-            );
+                return <PostItem post={post} key={post.key} />
+            });
+        } else if(this.state.Matching.length === 0 && this.state.searched) {
+            postItems = <h3> No Results Found </h3>;
         }
+
+        return (
+            <div>
+                <div className="input-group">
+                    <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
+                    <span className="input-group-btn">
+                        <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
+                    </span>
+                </div>
+                <div>
+                    {postItems}
+                </div>
+            </div>
+        );
     }
+
 }
 
 class Search extends React.Component {
