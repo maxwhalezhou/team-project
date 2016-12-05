@@ -140,7 +140,6 @@ class EditModal extends React.Component {
             text: this.state.text,
             time: this.props.post.time,
             title: this.state.title,
-            handle: firebase.auth().currentUser.displayName,
             userId: firebase.auth().currentUser.uid
         };
         publishedPostsRef.push(publishPost);
