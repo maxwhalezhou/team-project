@@ -16,7 +16,7 @@ textarea {
   white-space: pre-line;
 }
 
-#title{
+#title, .input-group{
   margin-bottom: 20px;
 }
 .form-group.send-message{
