@@ -44,6 +44,7 @@ class Featured extends React.Component {
             //sorting the array by time
             //postsArray.sort((a,b) => a.comments.length - b.comments.length); //reverse order
              postsArray.sort(function(a, b) {
+
                  var A= a.comments;
                  var B= b.comments;
                 if (A === undefined && B === undefined) {
@@ -52,14 +53,16 @@ class Featured extends React.Component {
                     return 1;
                 }else if(B === undefined){
                     return -1;
-                }else if(A.length < B.length ){
+                }else if(Object.keys(A).length === Object.keys(B).length ){
+                    return 0;
+                }else if(Object.keys(A).length < Object.keys(B).length ){
                     return 1;
-                }else if(A.length > B.length ){
+                }else if(Object.keys(A).length > Object.keys(B).length ){
                     return -1;
                 }
                 // names must be equal
                 return 0;
-                });
+            });
             
             this.setState({Posts:postsArray});
         });
@@ -76,7 +79,6 @@ class Featured extends React.Component {
             <div>
                 <h2>**HOT** Posts</h2>
                 {postItems}
-
             </div>
             );
     }
@@ -93,10 +95,18 @@ class PostItem extends React.Component {
         if(this.props.post.text.length > 250){
             text = text.substring(0, 250) +"...";
         }
+        var comment = '';
+        console.log(this.props.post.comment);
+        if(this.props.post.comments !== undefined){
+            comment =  Object.keys(this.props.post.comments).length;
+        }else{
+            comment = 0;
+        }
         return(
             <div className="panel panel-default panel-info">
                 <div className="panel-heading">
                     <h3 className="panel-title">{this.props.post.title}</h3>
+                    <p className="small help-block">{comment} Comments</p>
                 </div>
                 <div className="panel-body white-space">
                     {text}
