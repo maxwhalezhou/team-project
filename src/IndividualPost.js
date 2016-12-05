@@ -25,6 +25,7 @@ class IndividualPost extends React.Component {
                     <p className="white-space">{this.state.post.text}</p>
                 </div>
                 <div className="comments-box">
+                    <label>Leave A Comment</label>
                     <PostForm post={this.props.params.post} writer={this.state.post.userId} />
                     <div className="comments">
                         <CommentList post={this.props.params.post} writer={this.state.post.userId} />
@@ -103,7 +104,7 @@ class PostForm extends React.Component {
                 <div className="input-group">
                     <textarea type="text" placeholder="Type comment here..." value={this.state.comment} className="form-control" onChange={(e) => this.updateComment(e)}></textarea>
                     <span className="input-group-btn">
-                        <button className="btn btn-primary" onClick={(e) => this.postComment(e)} >Post</button>
+                        <Button className="btn btn-primary btn-block" onClick={(e) => this.postComment(e)} >Post</Button>
                     </span>
                 </div>
             </div>
@@ -158,7 +159,11 @@ class CommentList extends React.Component {
                 post={this.props.post} postWriter={this.props.writer} key={comment.key} />
         });
         
-        return (<div>{commentItems}</div>);
+        return (
+            <div>
+                <p>{commentItems.length} Comments</p>
+                {commentItems}
+            </div>);
     }
 }
 
@@ -261,11 +266,11 @@ class DeleteModal extends React.Component {
             <Modal {...this.props} bsSize="small" aria-labelledby="contained-modal-title-sm">
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-sm">
-                        Deleting a comment: "{this.props.comment.text}"
+                        Are you sure?
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure?
+                        This will permanently delete your comment.
                 </Modal.Body>
                 <Modal.Footer>
                     <Button bsStyle="danger" onClick={() => this.deleteComment()}>Yes</Button>
