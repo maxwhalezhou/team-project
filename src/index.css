@@ -19,3 +19,9 @@ textarea {
 #title{
   margin-bottom: 20px;
 }
+.form-group.send-message{
+  margin-top: 20px;
+}
+.form-group.send-message button{
+  margin-right: 10px;
+}
