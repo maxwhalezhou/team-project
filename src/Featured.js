@@ -74,7 +74,7 @@ class Featured extends React.Component {
             });
         return(
             <div>
-                <h2>Featured Posts</h2>
+                <h2>**HOT** Posts</h2>
                 {postItems}
 
             </div>
