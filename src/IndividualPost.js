@@ -155,7 +155,7 @@ class CommentList extends React.Component {
         /* Create a list of <CommentItem /> objects */
         var commentItems = this.state.comments.map((comment) => {
             return <CommentItem aria-label="comment" comment={comment}
-                post={this.props.post} postWriter={this.props.writer} />
+                post={this.props.post} postWriter={this.props.writer} key={comment.key} />
         });
         
         return (<div>{commentItems}</div>);
