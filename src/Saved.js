@@ -126,7 +126,7 @@ class EditModal extends React.Component {
         this.setState({ saved: true });
         window.setTimeout(() => {
             this.setState({ saved: false });
-        }, 2000);
+        }, 1500);
     }
 
     postPost(post) {
