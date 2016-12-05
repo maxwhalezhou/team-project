@@ -1,8 +1,6 @@
 import React from "react";
 import firebase from "firebase";
-import $ from 'jquery';
 import { PostItem } from "./Featured";
-import { IndividualPost } from "./IndividualPost";
 import { hashHistory } from "react-router";
 //create search box
 class SearchResults extends React.Component {
@@ -59,14 +57,11 @@ class SearchResults extends React.Component {
 
             //go through all posts and check if they have matching value. if so, add to an array
             for (var i = 0; i < this.state.Posts.length; i++) {
-                console.log(this.state.Posts[i].text.toLowerCase().includes(searchValue.toLowerCase));
                 if (this.state.Posts[i].text.toLowerCase().includes(searchValue) || this.state.Posts[i].title.toLowerCase().includes(searchValue)) {
                     matchingArray.push(this.state.Posts[i]);
-                    console.log("match!" + this.state.Posts[i].text);
                 }
             }
             this.setState({ Matching: matchingArray });
-            console.log("matching: " + this.state.Matching);
         });
     }
 
