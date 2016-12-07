@@ -9,6 +9,7 @@ class Saved extends React.Component {
         return (
             <div>
                 <h2>Saved Posts</h2>
+                <p>This is the section for your saved posts.</p>
                 <div>
                     <PostList />
                 </div>
@@ -42,14 +43,22 @@ class PostList extends React.Component {
         // get the database reference on saved posts
         this.savedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved");
 
-        // iterate through each post in the database, and save them
+        // iterate through each post in the database
         this.savedPostsRef.on("value", (snapshot) => {
+            // create an empty array to hold saved posts
             var savedPostsArray = [];
+
+            // add every saved post in firebase to the array
             snapshot.forEach(function (child) {
                 var post = child.val();
                 post.key = child.key;
                 savedPostsArray.push(post);
             });
+
+            // sorts the saved posts based on how recent they are (i.e., most recent to least recent)
+            savedPostsArray.sort((a, b) => b.time - a.time);
+
+            // save the saved posts
             this.setState({ savedPosts: savedPostsArray });
         });
     }
