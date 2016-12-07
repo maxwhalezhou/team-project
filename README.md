@@ -1,6 +1,6 @@
 # Damaged Blue Zone
 
-[Damaged Blue Zone](https://www.facebook.com/l.php?u=https%3A%2F%2Fmaxwhalezhou.github.io%2Fteam-project%2Fbuild%2F%23%2F&h=SAQF2mkRu) is a website intended to create a sense of community amongst aspiring writers and help everyone improve their writing and critiquing skills.
+[Damaged Blue Zone](https://maxwhalezhou.github.io/team-project/build/#/login/) is a website intended to create a sense of community amongst aspiring writers and help everyone improve their writing and critiquing skills.
 
 This application requires you to sign in (or sign up) with an email address, password, and a handle (i.e., display name) in order to fully access it. After doing so, you can post your written works in order to gain feedback from other users!
 
@@ -32,8 +32,7 @@ Don't want to look for posts under featured posts? No problem! Just go ahead and
 ## Make a New Post
 Here is where you can make a new post, which you can either save for later or publish to the website!
 
-### CREDITS
-This project was created for INFO 343 in Autumn 2016 at the University of Washington by Damaged Blue Zone.
-##### Creators: Christa Joy Jaeger, Arden Kim, Nancy Tran, Maxwell Zhou
+## CREDITS
+This project was created for INFO 343 in Autumn 2016 at the University of Washington by Damaged Blue Zone (Christa Joy Jaeger, Arden Kim, Nancy Tran, Maxwell Zhou).
 
 This project was created with [Create React App](https://github.com/facebookincubator/create-react-app).
