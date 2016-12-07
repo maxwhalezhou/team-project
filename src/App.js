@@ -22,10 +22,8 @@ class App extends Component {
       //if they are logged in it pushes to channel component
       if(user) {
         this.setState({'loggedIn': true});
-        console.log('Auth state changed: logged in as', user.email);
       }
       else{
-        console.log('Auth state changed: logged out');
       }
     })
    }

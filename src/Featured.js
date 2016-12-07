@@ -9,28 +9,25 @@ class Featured extends React.Component {
         this.state = {
             Posts: []
         }; 
-     }
+    }
     componentDidMount() {
     /* Add a listener and callback for authentication events */
         var unregister = firebase.auth().onAuthStateChanged(user => {
             if(user) {
-                console.log('Auth state changed: logged in as', user.email);
                  this.getPosts();
             }else{
                 unregister();
-                console.log('Auth state changed: logged out');
                 hashHistory.push('/login/');
             }
         });
     }
-     getPosts(){
+    getPosts(){
         //only executes if there is a channel param
         //getting the last 100 posts
         var postsRef = firebase.database().ref("Users");  
         postsRef.on('value', (snapshot) => {
             var postsArray = []; 
             //going through posts and pushing the value into array
-            
             snapshot.forEach(function(child){
                 if(child.val().published){
                     var postKeys = Object.keys(child.val().published)
@@ -41,20 +38,16 @@ class Featured extends React.Component {
                     }   
                 } 
             });
-            //sorting the array by time
-            //postsArray.sort((a,b) => a.comments.length - b.comments.length); //reverse order
+            //sorting the array by number of comments
              postsArray.sort(function(a, b) {
-
-                 var A= a.comments;
-                 var B= b.comments;
+                var A= a.comments;
+                var B= b.comments;
                 if (A === undefined && B === undefined) {
                     return 0;
                 }else if(A === undefined ){
                     return 1;
                 }else if(B === undefined){
                     return -1;
-                }else if(Object.keys(A).length === Object.keys(B).length ){
-                    return 0;
                 }else if(Object.keys(A).length < Object.keys(B).length ){
                     return 1;
                 }else if(Object.keys(A).length > Object.keys(B).length ){
@@ -63,18 +56,16 @@ class Featured extends React.Component {
                 // names must be equal
                 return 0;
             });
-            
             this.setState({Posts:postsArray});
         });
       
     }
 
     render() {
-
         var postItems = '';
-            postItems= this.state.Posts.map((post) => {
-                return <PostItem post={post} key={post.key} />
-            });
+        postItems= this.state.Posts.map((post) => {
+            return <PostItem post={post} key={post.key} />
+        });
         return(
             <div>
                 <h2>**HOT** Posts</h2>

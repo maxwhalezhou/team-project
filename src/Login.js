@@ -23,11 +23,9 @@ class Login extends React.Component {
       //if they are logged in it pushes to channel component
       if(user) {
         unregister();
-        console.log('Auth state changed: logged in as', user.email);
         hashHistory.push('/featured');
       }
       else{
-        console.log('Auth state changed: logged out');
       }
     })
    }
@@ -45,7 +43,7 @@ class Login extends React.Component {
   signIn(event) {
     /* Sign in the user */
     event.preventDefault();
-    
+
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .catch(err => this.setState({'error':true})); //Incorrect email or password
   }

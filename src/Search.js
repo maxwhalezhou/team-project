@@ -23,10 +23,8 @@ class SearchResults extends React.Component {
         /* Add a listener and callback for authentication events */
         var unregister = firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                console.log('Auth state changed: logged in as', user.email);
             } else {
                 unregister();
-                console.log('Auth state changed: logged out');
                 hashHistory.push('/login/');
             }
         });
