@@ -50,9 +50,12 @@ class App extends Component {
                   </NavDropdown>
                 </Nav>
                 <Nav pullRight>
-                  <NavItem>
+                  <NavItem onClick={() => this.signOut()}>
                     {firebase.auth().currentUser &&
-                    <button className="btn btn-warning float-btn" onClick={() => this.signOut()}>Sign out</button>
+                      <div className="sign-out">
+                        Sign Out{' '}
+                        <span className="glyphicon glyphicon-log-out" aria-label="Log Out" />
+                      </div>
                     }
                   </NavItem>
                 </Nav>
