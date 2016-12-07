@@ -77,7 +77,7 @@ class Featured extends React.Component {
         });
         return(
             <div >
-                <h2>**HOT** Works</h2>
+                <h2><strong>HOT</strong> Works</h2>
                 <div className="alert alert-info" role="alert">
                     Here is where the "hottest" works (i.e., those with the most comments) appear!
                     Each post goes in descending order from the greatest amount of comments to the least amount of comments.

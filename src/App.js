@@ -42,11 +42,11 @@ class App extends Component {
               <Navbar.Collapse>
                 <Nav>
                   <NavDropdown title="Navigate" id="basic-nav-dropdown">
-                    <LinkContainer to={'/featured'}><MenuItem>**HOT** Works</MenuItem></LinkContainer>
-                    <LinkContainer to={'/saved'}><MenuItem>Saved Posts</MenuItem></LinkContainer>
-                    <LinkContainer to={'/published'}><MenuItem>Published Posts</MenuItem></LinkContainer>
+                    <LinkContainer to={'/featured'}><MenuItem><strong>HOT</strong> Works</MenuItem></LinkContainer>
+                    <LinkContainer to={'/saved'}><MenuItem>Saved Works</MenuItem></LinkContainer>
+                    <LinkContainer to={'/published'}><MenuItem>Published Works</MenuItem></LinkContainer>
                     <LinkContainer to={'/search'}><MenuItem>Search</MenuItem></LinkContainer>
-                    <LinkContainer to={'/newpost'}><MenuItem>Make a New Post!</MenuItem></LinkContainer>
+                    <LinkContainer to={'/newpost'}><MenuItem>Post Your Work!</MenuItem></LinkContainer>
                   </NavDropdown>
                 </Nav>
                 <Nav pullRight>
