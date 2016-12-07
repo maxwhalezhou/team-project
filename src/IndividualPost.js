@@ -105,7 +105,7 @@ class PostForm extends React.Component {
                 }
                 <form className="form-group">
                     <textarea type="text" placeholder="Type comment here..." value={this.state.comment} className="form-control" onChange={(e) => this.updateComment(e)} />
-                    <Button className="btn btn-primary btn-block" onClick={(e) => this.postComment(e)} >Post</Button>
+                    <Button className="btn btn-primary btn-block" disabled={this.state.comment.length === 0 } onClick={(e) => this.postComment(e)} >Post</Button>
                 </form>
             </div>
         );
