@@ -47,7 +47,7 @@ class App extends Component {
             <Navbar.Collapse>
               <Nav>
                 <NavDropdown title="Navigate" id="basic-nav-dropdown">
-                  <LinkContainer to={'/featured'}><MenuItem>Featured</MenuItem></LinkContainer>
+                  <LinkContainer to={'/featured'}><MenuItem>**HOT** Posts</MenuItem></LinkContainer>
                   <LinkContainer to={'/saved'}><MenuItem>Saved Posts</MenuItem></LinkContainer>
                   <LinkContainer to={'/published'}><MenuItem>Published Posts</MenuItem></LinkContainer>
                   <LinkContainer to={'/search'}><MenuItem>Search</MenuItem></LinkContainer>

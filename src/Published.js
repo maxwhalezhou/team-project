@@ -68,7 +68,9 @@ class PostItem extends React.Component {
 
         this.state = { editShow: false, deleteShow: false };
     }
-
+    handleClick(e){
+      hashHistory.push('/post/'+this.props.post.key);
+    }
     render() {
         var text = this.props.post.text;
         if (this.props.post.text.length > 200) {
@@ -90,6 +92,7 @@ class PostItem extends React.Component {
                     <div className="panel-footer">
                         <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button>
                         <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
+                        <Button className="btn-space" bsSize="small" bsStyle='primary' onClick={(e) => this.handleClick(e)}>Read More</Button>
                     </div>
                 </div>
 

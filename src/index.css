@@ -25,3 +25,7 @@ textarea {
 .form-group.send-message button{
   margin-right: 10px;
 }
+.btn-space {
+    margin-left: 10px;
+}
+
