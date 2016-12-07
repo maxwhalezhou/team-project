@@ -127,6 +127,9 @@ class EditModal extends React.Component {
         postRef.child("title").set(this.state.title);
         postRef.child("text").set(this.state.text);
         this.setState({ saved: true });
+        window.setTimeout(() => {
+            this.setState({ saved: false });
+        }, 1500);
     }
 
     render() {
