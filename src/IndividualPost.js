@@ -160,9 +160,16 @@ class CommentList extends React.Component {
                 post={this.props.post} postWriter={this.props.writer} key={comment.key} />
         });
 
+        var commentDisplay = "";
+        if (commentItems.length === 1) {
+            commentDisplay = "Comment";
+        } else {
+            commentDisplay = "Comments";
+        }
+
         return (
             <div>
-                <p>{commentItems.length} Comments</p>
+                <p>{commentItems.length} {commentDisplay}</p>
                 {commentItems}
             </div>);
     }

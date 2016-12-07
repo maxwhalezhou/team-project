@@ -91,8 +91,12 @@ class PostItem extends React.Component {
             text = text.substring(0, 250) +"...";
         }
         var comment = '';
+        var commentDisplay = "Comments";
         if(this.props.post.comments !== undefined){
             comment =  Object.keys(this.props.post.comments).length;
+            if (Object.keys(this.props.post.comments).length === 1) {
+                commentDisplay = "Comment";
+            }
         }else{
             comment = 0;
         }
@@ -100,7 +104,7 @@ class PostItem extends React.Component {
             <div className="panel panel-default panel-info">
                 <div className="panel-heading">
                     <h3 className="panel-title">{this.props.post.title}</h3>
-                    <p className="small help-block">{comment} Comments</p>
+                    <p className="small help-block">{comment} {commentDisplay}</p>
                 </div>
                 <div className="panel-body white-space">
                     {text}
