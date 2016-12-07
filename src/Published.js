@@ -10,7 +10,7 @@ class Published extends React.Component {
             <div>
                 <h2>Published Works</h2>
                 <Alert>
-                    <p>Here is where your published posts are! You are also free to edit or delete them at any time in this section!</p>
+                    <p>Here is where your published works are! You are also free to edit or delete them at any time in this section!</p>
                     <p>You can also easily check out a post and its comments on the website by clicking on "Read More."</p>
                 </Alert>
                 <div>
