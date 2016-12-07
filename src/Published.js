@@ -9,6 +9,7 @@ class Published extends React.Component {
         return (
             <div>
                 <h2>Published Posts</h2>
+                <p>This is the section for your published posts.</p>
                 <div>
                     <PostList />
                 </div>
@@ -45,12 +46,20 @@ class PostList extends React.Component {
         // iterate through each post in the database, and save them
         this.PostsRef = publishedPostsRef;
         publishedPostsRef.on("value", (snapshot) => {
+            // create an empty array to hold published posts
             var publishedPostsArray = [];
+
+            // add every published post in firebase to the array
             snapshot.forEach(function (child) {
                 var post = child.val();
                 post.key = child.key;
                 publishedPostsArray.push(post);
             });
+
+            // sorts the saved posts based on how recent they are (i.e., most recent to least recent)
+            publishedPostsArray.sort((a, b) => b.time - a.time);
+
+            // saved the published posts
             this.setState({ publishedPosts: publishedPostsArray });
         });
     }
