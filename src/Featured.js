@@ -25,6 +25,7 @@ class Featured extends React.Component {
         //only executes if there is a channel param
         //getting the last 100 posts
         var postsRef = firebase.database().ref("Users");  
+        this.PostsRef = postsRef;
         postsRef.on('value', (snapshot) => {
             var postsArray = []; 
             //going through posts and pushing the value into array
@@ -59,6 +60,9 @@ class Featured extends React.Component {
             this.setState({Posts:postsArray});
         });
       
+    }
+     componentWillUnmount = () => {
+        this.PostsRef.off();
     }
 
     render() {
