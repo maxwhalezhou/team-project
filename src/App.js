@@ -32,36 +32,36 @@ class App extends Component {
       <div>
         <header role="banner" className="well">
           <div className="container">
-          <Navbar collapseOnSelect>
-            <Navbar.Header>
-              <Navbar.Brand>
-                  <a href="#">Damaged Blue Zone</a>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-              <Nav>
-                <NavDropdown title="Navigate" id="basic-nav-dropdown">
-                  <LinkContainer to={'/featured'}><MenuItem>**HOT** Posts</MenuItem></LinkContainer>
-                  <LinkContainer to={'/saved'}><MenuItem>Saved Posts</MenuItem></LinkContainer>
-                  <LinkContainer to={'/published'}><MenuItem>Published Posts</MenuItem></LinkContainer>
-                  <LinkContainer to={'/search'}><MenuItem>Search</MenuItem></LinkContainer>
-                  <LinkContainer to={'/newpost'}><MenuItem>Make a New Post!</MenuItem></LinkContainer>
-                </NavDropdown>
-              </Nav>
-            <Nav pullRight>
-              <NavItem>
-                {firebase.auth().currentUser &&
-                  <button className="btn btn-warning float-btn" onClick={() => this.signOut()}>Sign out</button>
-                }
-                </NavItem>
-            </Nav>
-            </Navbar.Collapse>
-          </Navbar>
+            <Navbar collapseOnSelect>
+              <Navbar.Header>
+                <Navbar.Brand>
+                    <a href="#">Damaged Blue Zone</a>
+                </Navbar.Brand>
+                <Navbar.Toggle />
+              </Navbar.Header>
+              <Navbar.Collapse>
+                <Nav>
+                  <NavDropdown title="Navigate" id="basic-nav-dropdown">
+                    <LinkContainer to={'/featured'}><MenuItem>**HOT** Works</MenuItem></LinkContainer>
+                    <LinkContainer to={'/saved'}><MenuItem>Saved Posts</MenuItem></LinkContainer>
+                    <LinkContainer to={'/published'}><MenuItem>Published Posts</MenuItem></LinkContainer>
+                    <LinkContainer to={'/search'}><MenuItem>Search</MenuItem></LinkContainer>
+                    <LinkContainer to={'/newpost'}><MenuItem>Make a New Post!</MenuItem></LinkContainer>
+                  </NavDropdown>
+                </Nav>
+                <Nav pullRight>
+                  <NavItem>
+                    {firebase.auth().currentUser &&
+                    <button className="btn btn-warning float-btn" onClick={() => this.signOut()}>Sign out</button>
+                    }
+                  </NavItem>
+                </Nav>
+              </Navbar.Collapse>
+            </Navbar>
           </div>  
           
         </header>
-        <div className="container" role="region">
+        <div className="container" role="main">
           {this.props.children}
         </div>
       </div>

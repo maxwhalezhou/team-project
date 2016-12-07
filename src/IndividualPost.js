@@ -22,10 +22,9 @@ class IndividualPost extends React.Component {
         //only executes if there is a channel param
         //getting the last 100 posts
         var postKey = param.post;
-        var postsRef = firebase.database().ref("Users");
-        this.PostsRef = postsRef;
+        this.postsRef = firebase.database().ref("Users");
         var thisPost = "placeholder";
-        postsRef.on('value', (snapshot) => {
+        this.postsRef.on('value', (snapshot) => {
             //going through posts and pushing the value into array
 
             snapshot.forEach(function (child) {
@@ -41,7 +40,7 @@ class IndividualPost extends React.Component {
         });
     }
     componentWillUnmount = () => {
-        this.PostsRef.off();
+        this.postsRef.off();
     }
     render() {
         return (

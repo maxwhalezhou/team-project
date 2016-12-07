@@ -33,8 +33,8 @@ class SearchResults extends React.Component {
     searchPosts() {
         var searchValue = this.state.value; //user search value
         var matchingArray = []; //store matching posts
-        var postsRef = firebase.database().ref("Users"); //reference to database
-        postsRef.on('value', (snapshot) => {
+        this.postsRef = firebase.database().ref("Users"); //reference to database
+        this.postsRef.on('value', (snapshot) => {
             var postsArray = [];
             //going through posts and pushing the value into array
 
@@ -58,6 +58,9 @@ class SearchResults extends React.Component {
             }
             this.setState({ Matching: matchingArray, searched: true }); //set the state of matchingArray and flag that user hit search
         });
+    }
+    componentWillUnmount = () => {
+        this.postsRef.off();
     }
 
     render() {
