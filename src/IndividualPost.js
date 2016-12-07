@@ -53,7 +53,7 @@ class IndividualPost extends React.Component {
                     <div>
                         <div>
                             <h2>{this.state.post.title}</h2>
-                            <p>{this.state.post.handle}at <Time value={this.state.post.time} relative /></p>
+                            <p>{this.state.post.handle} at <Time value={this.state.post.time} relative /></p>
                             <p className="white-space">{this.state.post.text}</p>
                         </div>
                         <div className="comments-box">
@@ -103,12 +103,10 @@ class PostForm extends React.Component {
                 {this.state.loading &&
                     <p className="loading">Uploading...</p>
                 }
-                <div className="input-group">
-                    <textarea type="text" placeholder="Type comment here..." value={this.state.comment} className="form-control" onChange={(e) => this.updateComment(e)}></textarea>
-                    <span className="input-group-btn">
-                        <Button className="btn btn-primary btn-block" onClick={(e) => this.postComment(e)} >Post</Button>
-                    </span>
-                </div>
+                <form className="form-group">
+                    <textarea type="text" placeholder="Type comment here..." value={this.state.comment} className="form-control" onChange={(e) => this.updateComment(e)} />
+                    <Button className="btn btn-primary btn-block" onClick={(e) => this.postComment(e)} >Post</Button>
+                </form>
             </div>
         );
     }
