@@ -1,31 +1,32 @@
+/* set the base fonts, margins, and paddings */
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
-.comment-box {
-  border: black solid 1px;
-}
-
+/* users can only adjust textareas vertically */
 textarea {
   resize: vertical;
 }
 
+/* fixes the white space for all text */
 .white-space {
   white-space: pre-line;
 }
 
-#title, .input-group{
+/* margin spacing adjustments for Making a New Post webpage */
+#title, .input-group {
   margin-bottom: 20px;
 }
-.form-group.send-message{
+.new-post {
   margin-top: 20px;
 }
-.form-group.send-message button{
+.new-post button {
   margin-right: 10px;
 }
+
+/* margin for Read More button on published posts */
 .btn-space {
     margin-left: 10px;
 }
-

@@ -71,7 +71,7 @@ class NewPost extends React.Component {
           <label>Content:</label>
           <textarea placeholder="Type post here..." name="text" className="post-form form-control" onChange={(e) => this.updatePost(e)} rows="5"/>
 
-          <div className="form-group send-message">
+          <div className="form-group new-post">
             {/* Disable if invalid post length */}
             <button className="btn btn-default" disabled={this.state.post.length === 0 }
               onClick={(e) => this.savePost(e)} >Save</button>
