@@ -101,7 +101,11 @@ class Search extends React.Component {
     render() {
         return (
             <div>
-                <h1>Search</h1> 
+                <h1>Search</h1>
+                <div className="alert alert-info" role="alert">
+                    Don't want to look for works under featured works?
+                    No problem! Just go ahead and search through any of the works on this website!
+                </div>
                 <SearchResults />
             </div>
         );
