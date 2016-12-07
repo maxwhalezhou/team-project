@@ -135,15 +135,19 @@ class CommentList extends React.Component {
     }
 
     getComments() {
+        console.log("commentArray", this.state.comments);
         var commentsRef = firebase.database().ref('Users/' + this.props.writer + '/published/' + this.props.post + '/comments'); //the chats in the channel
-        var commentArray = []; //could also do this processing in render
         commentsRef.on('value', (snapshot) => {
+            var commentArray = []; //could also do this processing in render
             snapshot.forEach(function (child) {
                 var comment = child.val();
                 comment.key = child.key; //save the unique id for later
                 commentArray.push(comment); //make into an array
+                console.log("Array", commentArray);
+                
             });
             this.setState({comments:commentArray});
+            console.log("commentArray outside", this.state.comments);
         });
     }
 
