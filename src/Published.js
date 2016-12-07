@@ -8,7 +8,11 @@ class Published extends React.Component {
     render() {
         return (
             <div>
-                <h2>Published Posts</h2>
+                <h2>Published Works</h2>
+                <Alert>
+                    <p>Here is where your published posts are! You are also free to edit or delete them at any time in this section!</p>
+                    <p>You can also easily check out a post and its comments on the website by clicking on "Read More."</p>
+                </Alert>
                 <div>
                     <PostList />
                 </div>
@@ -45,12 +49,20 @@ class PostList extends React.Component {
         // iterate through each post in the database, and save them
         this.PostsRef = publishedPostsRef;
         publishedPostsRef.on("value", (snapshot) => {
+            // create an empty array to hold published posts
             var publishedPostsArray = [];
+
+            // add every published post in firebase to the array
             snapshot.forEach(function (child) {
                 var post = child.val();
                 post.key = child.key;
                 publishedPostsArray.push(post);
             });
+
+            // sorts the saved posts based on how recent they are (i.e., most recent to least recent)
+            publishedPostsArray.sort((a, b) => b.time - a.time);
+
+            // saved the published posts
             this.setState({ publishedPosts: publishedPostsArray });
         });
     }
@@ -142,22 +154,22 @@ class PostItem extends React.Component {
         return (
             <div>
                 {/* A published post */}
-                <div className="panel panel-default panel-info">
-                    <div className="panel-heading">
+                <div className="panel panel-default panel-info" aria-labelledby="a published work">
+                    <div className="panel-heading" aria-labelledby="a published work's title">
                         <h3 className="panel-title">{this.props.post.title}</h3>
                     </div>
-                    <div className="panel-body white-space">
+                    <div className="panel-body white-space" aria-labelledby="a published work's content">
                         {text}
                     </div>
-                    <div className="panel-footer">
-                        <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button>
-                        <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
-                        <Button className="btn-space" bsSize="small" bsStyle='primary' onClick={() => this.handleClick()}>Read More</Button>
+                    <div className="panel-footer" aria-labelledby="a published work's edit, delete, and read more buttons">
+                        <Button bsSize="small" onClick={() => this.setState({ editShow: true })} aria-labelledby="edit button">Edit</Button>
+                        <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })} aria-labelledby="delete button">Delete</Button>
+                        <Button className="btn-space" bsSize="small" bsStyle='primary' onClick={() => this.handleClick()} aria-labelledby="read more button">Read More</Button>
                     </div>
                 </div>
 
                 {/* A Modal for editing the post */}
-                <Modal show={this.state.editShow} onHide={editClose} bsSize="large" aria-labelledby="contained-modal-title-lg">
+                <Modal show={this.state.editShow} onHide={editClose} bsSize="large" aria-labelledby="edit post modal">
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-lg">
                             <input defaultValue={this.props.post.title} className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
@@ -173,12 +185,13 @@ class PostItem extends React.Component {
                         }
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button bsStyle="primary" onClick={() => this.editPost(this.props.post)}>Save</Button>
+                        <Button bsStyle="primary" onClick={() => this.editPost(this.props.post)} aria-labelledby="save button">Save</Button>
+                        <Button onClick={editClose} aria-labelledby="cancel button">Cancel</Button>
                     </Modal.Footer>
                 </Modal>
 
                 {/* A Modal for deleting the post */}
-                <Modal show={this.state.deleteShow} onHide={deleteClose} bsSize="small" aria-labelledby="contained-modal-title-sm">
+                <Modal show={this.state.deleteShow} onHide={deleteClose} bsSize="small" aria-labelledby="delete post modal">
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-sm">
                             Deleting "{this.props.post.title}"
@@ -188,8 +201,8 @@ class PostItem extends React.Component {
                         Are you sure?
                 </Modal.Body>
                     <Modal.Footer>
-                        <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)}>Yes</Button>
-                        <Button onClick={deleteClose}>No</Button>
+                        <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)} aria-labelledby="yes button">Yes</Button>
+                        <Button onClick={deleteClose} aria-labelledby="no button">No</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
