@@ -1,8 +1,11 @@
 {
   "name": "team-project",
+  "author": "Arden Kim, Nancy Tran, Maxwell Zhou, Christa Joy Jaeger",
+  "homepage": "https://maxwhalezhou.github.io/team-project/build",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "gh-pages": "^0.12.0",
     "react-router-bootstrap": "^0.23.1",
     "react-scripts": "0.7.0"
   },
