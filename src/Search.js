@@ -22,8 +22,7 @@ class SearchResults extends React.Component {
     componentDidMount() {
         /* Add a listener and callback for authentication events */
         var unregister = firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-            } else {
+            if (!user) {
                 unregister();
                 hashHistory.push('/login/');
             }

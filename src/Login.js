@@ -114,11 +114,7 @@ class Join extends React.Component {
     var unregister = firebase.auth().onAuthStateChanged(user => {
       if(user) {
         unregister();
-        console.log('Auth state changed: logged in as', user.email);
         hashHistory.push('/featured');
-      }
-      else{
-        console.log('Auth state changed: logged out');
       }
     })
   }

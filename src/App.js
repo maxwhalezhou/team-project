@@ -23,8 +23,6 @@ class App extends Component {
       if(user) {
         this.setState({'loggedIn': true});
       }
-      else{
-      }
     })
    }
   render() {

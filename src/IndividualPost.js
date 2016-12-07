@@ -11,8 +11,7 @@ class IndividualPost extends React.Component {
     }
     componentDidMount(){
         var unregister = firebase.auth().onAuthStateChanged(user => {
-            if(user) {
-            }else{
+            if(!user) {
                 unregister();
                 hashHistory.push('/login/');
             }
