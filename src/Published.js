@@ -175,7 +175,7 @@ class PostItem extends React.Component {
                             <input defaultValue={this.props.post.title} className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
                         </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body onClick={() => this.updateSaved()}>
+                    <Modal.Body>
                         <textarea defaultValue={this.props.post.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
                         {/* If the post has been edited, display an alert to the user, and remove the alert after 1.5 seconds */}
                         {this.state.saved &&
