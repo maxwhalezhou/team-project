@@ -59,8 +59,17 @@ class NewPost extends React.Component {
     hashHistory.push('/saved');
   }
 
+  // validate that the title and post content aren't empty
+  validateTitle(title) {
+    return (title.length > 0);
+  }
+  validatePost(post) {
+    return (post.length > 0);
+  }
+
   // how to display
   render() {
+    var buttonEnabled = (this.validateTitle(this.state.title) && this.validatePost(this.state.post));
     return (
       <div className="message-box write-message" role="region">
         <h2>Make a New Story!</h2>
@@ -73,9 +82,9 @@ class NewPost extends React.Component {
 
           <div className="form-group new-post">
             {/* Disable if invalid post length */}
-            <button className="btn btn-default" disabled={this.state.post.length === 0 }
+            <button className="btn btn-default" disabled={!buttonEnabled}
               onClick={(e) => this.savePost(e)} >Save</button>
-            <button className="btn btn-primary" disabled={this.state.post.length === 0 }
+            <button className="btn btn-primary" disabled={!buttonEnabled}
               onClick={(e) => this.postPost(e)} >Post</button>
           </div>
         </form>
