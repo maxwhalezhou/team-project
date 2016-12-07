@@ -1,5 +1,5 @@
 import React from "react";
-import { hashHistory} from "react-router";
+import { hashHistory } from "react-router";
 import { Modal, Button, Alert } from "react-bootstrap";
 import firebase from "firebase";
 
@@ -68,7 +68,45 @@ class PostItem extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { editShow: false, deleteShow: false };
+        this.state = { editShow: false, deleteShow: false, title: this.props.post.title, text: this.props.post.text, saved: false };
+    }
+
+    updateTitle(event) {
+        this.setState({ title: event.target.value });
+    }
+
+    updateText(event) {
+        this.setState({ text: event.target.value });
+    }
+
+    editPost(post) {
+        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+        postRef.child("title").set(this.state.title);
+        postRef.child("text").set(this.state.text);
+        this.setState({ saved: true });
+        window.setTimeout(() => {
+            this.setState({ saved: false });
+        }, 1500);
+    }
+
+    deletePost(post) {
+        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+        postRef.remove();
+    }
+
+    postPost(post) {
+        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+        postRef.remove();
+
+        var publishedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published");
+        var publishPost = {
+            handle: firebase.auth().currentUser.displayName,
+            text: this.state.text,
+            time: this.props.post.time,
+            title: this.state.title,
+            userId: firebase.auth().currentUser.uid
+        };
+        publishedPostsRef.push(publishPost);
     }
 
     render() {
@@ -95,100 +133,41 @@ class PostItem extends React.Component {
                     </div>
                 </div>
 
-                <EditModal post={this.props.post} show={this.state.editShow} onHide={editClose} />
-                <DeleteModal post={this.props.post} show={this.state.deleteShow} onHide={deleteClose} />
+                <Modal show={this.state.editShow} onHide={editClose} bsSize="large" aria-labelledby="contained-modal-title-lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-lg">
+                            <input defaultValue={this.props.post.title} className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <textarea defaultValue={this.props.post.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
+                        {this.state.saved &&
+                            <Alert bsStyle="success">
+                                <strong>Saved!</strong>
+                            </Alert>
+                        }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={() => this.editPost(this.props.post)}>Save</Button>
+                        <Button bsStyle="primary" onClick={() => this.postPost(this.props.post)}>Post</Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={this.state.deleteShow} onHide={deleteClose} bsSize="small" aria-labelledby="contained-modal-title-sm">
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-sm">
+                            Deleting "{this.props.post.title}"
+                    </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure?
+                </Modal.Body>
+                    <Modal.Footer>
+                        <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)}>Yes</Button>
+                        <Button onClick={deleteClose}>No</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
-        );
-    }
-}
-
-class EditModal extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { title: this.props.post.title, text: this.props.post.text, saved: false };
-    }
-
-    updateTitle(event) {
-        this.setState({ title: event.target.value });
-    }
-
-    updateText(event) {
-        this.setState({ text: event.target.value });
-    }
-
-    editPost(post) {
-        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
-        postRef.child("title").set(this.state.title);
-        postRef.child("text").set(this.state.text);
-        this.setState({ saved: true });
-        window.setTimeout(() => {
-            this.setState({ saved: false });
-        }, 1500);
-    }
-
-    postPost(post) {
-        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
-        postRef.remove();
-
-        var publishedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published");
-        var publishPost = {
-            handle: firebase.auth().currentUser.displayName,
-            text: this.state.text,
-            time: this.props.post.time,
-            title: this.state.title,
-            userId: firebase.auth().currentUser.uid
-        };
-        publishedPostsRef.push(publishPost);
-    }
-
-    render() {
-        return (
-            <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-lg">
-                        <input defaultValue={this.props.post.title} className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <textarea defaultValue={this.props.post.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
-                    {this.state.saved &&
-                        <Alert bsStyle="success">
-                            <strong>Saved!</strong>
-                        </Alert>
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={() => this.editPost(this.props.post)}>Save</Button>
-                    <Button bsStyle="primary" onClick={() => this.postPost(this.props.post)}>Post</Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-}
-
-class DeleteModal extends React.Component {
-    deletePost(post) {
-        var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
-        postRef.remove();
-    }
-
-    render() {
-        return (
-            <Modal {...this.props} bsSize="small" aria-labelledby="contained-modal-title-sm">
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-sm">
-                        Deleting "{this.props.post.title}"
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)}>Yes</Button>
-                    <Button onClick={this.props.onHide}>No</Button>
-                </Modal.Footer>
-            </Modal>
         );
     }
 }

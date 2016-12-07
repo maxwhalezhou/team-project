@@ -38,7 +38,7 @@ class PostList extends React.Component {
         this.PostsRef = publishedPostsRef;
         publishedPostsRef.on("value", (snapshot) => {
             var publishedPostsArray = [];
-            snapshot.forEach(function(child) {
+            snapshot.forEach(function (child) {
                 var post = child.val();
                 post.key = child.key;
                 publishedPostsArray.push(post);
@@ -66,48 +66,11 @@ class PostItem extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = { editShow: false, deleteShow: false };
+        this.state = { editShow: false, deleteShow: false, title: this.props.post.title, text: this.props.post.text, saved: false };
     }
-    handleClick(e){
-      hashHistory.push('/post/'+this.props.post.key);
-    }
-    render() {
-        var text = this.props.post.text;
-        if (this.props.post.text.length > 200) {
-            text = text.substring(0, 200) + "...";
-        }
 
-        let editClose = () => this.setState({ editShow: false });
-        let deleteClose = () => this.setState({ deleteShow: false });
-
-        return (
-            <div>
-                <div className="panel panel-default panel-info">
-                    <div className="panel-heading">
-                        <h3 className="panel-title">{this.props.post.title}</h3>
-                    </div>
-                    <div className="panel-body white-space">
-                        {text}
-                    </div>
-                    <div className="panel-footer">
-                        <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button>
-                        <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
-                        <Button className="btn-space" bsSize="small" bsStyle='primary' onClick={(e) => this.handleClick(e)}>Read More</Button>
-                    </div>
-                </div>
-
-                <EditModal post={this.props.post} show={this.state.editShow} onHide={editClose} />
-                <DeleteModal post={this.props.post} show={this.state.deleteShow} onHide={deleteClose} />
-            </div>
-        );
-    }
-}
-
-class EditModal extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { title: this.props.post.title, text: this.props.post.text, saved: false };
+    handleClick() {
+        hashHistory.push('/post/' + this.props.post.key);
     }
 
     updateSaved() {
@@ -132,52 +95,70 @@ class EditModal extends React.Component {
         }, 1500);
     }
 
-    render() {
-        return (
-            <Modal {...this.props} bsSize="large" aria-labelledby="contained-modal-title-lg">
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-lg">
-                        <input defaultValue={this.props.post.title} className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body onClick={() => this.updateSaved()}>
-                    <textarea defaultValue={this.props.post.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
-                    {this.state.saved &&
-                        <Alert bsStyle="success">
-                            <strong>Saved!</strong>
-                        </Alert>
-                    }
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button bsStyle="primary" onClick={() => this.editPost(this.props.post)}>Save</Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
-}
-
-class DeleteModal extends React.Component {
     deletePost(post) {
         var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published/" + post.key);
         postRef.remove();
     }
 
     render() {
+        var text = this.props.post.text;
+        if (this.props.post.text.length > 200) {
+            text = text.substring(0, 200) + "...";
+        }
+
+        let editClose = () => this.setState({ editShow: false });
+        let deleteClose = () => this.setState({ deleteShow: false });
+
         return (
-            <Modal {...this.props} bsSize="small" aria-labelledby="contained-modal-title-sm">
-                <Modal.Header closeButton>
-                    <Modal.Title id="contained-modal-title-sm">
-                        Deleting "{this.props.post.title}"
+            <div>
+                <div className="panel panel-default panel-info">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">{this.props.post.title}</h3>
+                    </div>
+                    <div className="panel-body white-space">
+                        {text}
+                    </div>
+                    <div className="panel-footer">
+                        <Button bsSize="small" onClick={() => this.setState({ editShow: true })}>Edit</Button>
+                        <Button bsStyle="danger" bsSize="small" onClick={() => this.setState({ deleteShow: true })}>Delete</Button>
+                        <Button className="btn-space" bsSize="small" bsStyle='primary' onClick={() => this.handleClick()}>Read More</Button>
+                    </div>
+                </div>
+
+                <Modal show={this.state.editShow} onHide={editClose} bsSize="large" aria-labelledby="contained-modal-title-lg">
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-lg">
+                            <input defaultValue={this.props.post.title} className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body onClick={() => this.updateSaved()}>
+                        <textarea defaultValue={this.props.post.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
+                        {this.state.saved &&
+                            <Alert bsStyle="success">
+                                <strong>Saved!</strong>
+                            </Alert>
+                        }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button bsStyle="primary" onClick={() => this.editPost(this.props.post)}>Save</Button>
+                    </Modal.Footer>
+                </Modal>
+
+                <Modal show={this.state.deleteShow} onHide={deleteClose} bsSize="small" aria-labelledby="contained-modal-title-sm">
+                    <Modal.Header closeButton>
+                        <Modal.Title id="contained-modal-title-sm">
+                            Deleting "{this.props.post.title}"
                     </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Are you sure?
+                    </Modal.Header>
+                    <Modal.Body>
+                        Are you sure?
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)}>Yes</Button>
-                    <Button onClick={this.props.onHide}>No</Button>
-                </Modal.Footer>
-            </Modal>
+                    <Modal.Footer>
+                        <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)}>Yes</Button>
+                        <Button onClick={deleteClose}>No</Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
         );
     }
 }
