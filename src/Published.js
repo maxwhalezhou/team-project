@@ -35,7 +35,7 @@ class PostList extends React.Component {
 
     getPosts() {
         var publishedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published");
-
+        this.PostsRef = publishedPostsRef;
         publishedPostsRef.on("value", (snapshot) => {
             var publishedPostsArray = [];
             snapshot.forEach(function(child) {
@@ -46,7 +46,9 @@ class PostList extends React.Component {
             this.setState({ publishedPosts: publishedPostsArray });
         });
     }
-
+    componentWillUnmount = () => {
+        this.PostsRef.off();
+    }
     render() {
         var posts = this.state.publishedPosts.map((post) => {
             return <PostItem post={post} key={post.key} />
