@@ -23,7 +23,7 @@ class IndividualPost extends React.Component {
         //getting the last 100 posts
         var postKey = param.post;
         var postsRef = firebase.database().ref("Users");
-        this.savedPostsRef = postsRef;
+        this.PostsRef = postsRef;
         var thisPost = "placeholder";
         postsRef.on('value', (snapshot) => {
             //going through posts and pushing the value into array
@@ -41,7 +41,7 @@ class IndividualPost extends React.Component {
         });
     }
      componentWillUnmount = () => {
-        this.savedPostsRef.off();
+        this.PostsRef.off();
     }
     render() {
         return (
