@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "firebase";
 import { PostItem } from "./Featured";
 import { hashHistory } from "react-router";
+
 //create search box
 class SearchResults extends React.Component {
 
@@ -15,6 +16,7 @@ class SearchResults extends React.Component {
         }
     }
 
+    //update the state of the user's inputted search item'
     handleChange(event) {
         this.setState({ value: event.target.value.toLowerCase() });
     }
@@ -29,11 +31,9 @@ class SearchResults extends React.Component {
         });
     }
     searchPosts() {
-        //only executes if there is a channel param
-        //getting the last 100 posts
-        var searchValue = this.state.value;
-        var matchingArray = [];
-        var postsRef = firebase.database().ref("Users");
+        var searchValue = this.state.value; //user search value
+        var matchingArray = []; //store matching posts
+        var postsRef = firebase.database().ref("Users"); //reference to database
         postsRef.on('value', (snapshot) => {
             var postsArray = [];
             //going through posts and pushing the value into array
@@ -46,33 +46,35 @@ class SearchResults extends React.Component {
                     postsArray.push(post);
                 }
             });
-            //sorting the array by time
-            //postsArray.sort((a,b) => a.comments.length - b.comments.lengh); //reverse order
 
-            this.setState({ Posts: postsArray });
+            this.setState({ Posts: postsArray }); //stores all posts in the database
 
             //go through all posts and check if they have matching value. if so, add to an array
             for (var i = 0; i < this.state.Posts.length; i++) {
+                //if match
                 if (this.state.Posts[i].text.toLowerCase().includes(searchValue) || this.state.Posts[i].title.toLowerCase().includes(searchValue)) {
-                    matchingArray.push(this.state.Posts[i]);
+                    matchingArray.push(this.state.Posts[i]); //add matching post to the matchingArray
                 }
             }
-            this.setState({ Matching: matchingArray, searched: true });
+            this.setState({ Matching: matchingArray, searched: true }); //set the state of matchingArray and flag that user hit search
         });
     }
 
     render() {
 
-        var postItems ='';
+        var postItems =''; //start empty
+        
+        //if matching array has content, create PostItems
         if(this.state.Matching.length > 0){
             postItems = this.state.Matching.map((post) => {
             //including channel prop so the post can be edited later 
                 return <PostItem post={post} key={post.key} />
             });
-        } else if(this.state.Matching.length === 0 && this.state.searched) {
+        } else if(this.state.Matching.length === 0 && this.state.searched) { //else show no results found
             postItems = <h3> No Results Found </h3>;
         }
 
+        //return search bar and results
         return (
             <div>
                 <div className="input-group">
@@ -90,12 +92,13 @@ class SearchResults extends React.Component {
 
 }
 
+//Create class to that supports the search feature
 class Search extends React.Component {
 
     render() {
         return (
             <div>
-                <h1>Search</h1>
+                <h1>Search</h1> 
                 <SearchResults />
             </div>
         );
