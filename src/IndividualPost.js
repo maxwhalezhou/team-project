@@ -110,7 +110,7 @@ class PostForm extends React.Component {
                 {this.state.loading &&
                     <p className="loading">Uploading...</p>
                 }
-                <form role="role" aria-label="Comment Form" className="form-group">
+                <form role="form" aria-label="Comment Form" className="form-group">
                     <textarea type="text" placeholder="Type comment here..." value={this.state.comment} className="form-control" onChange={(e) => this.updateComment(e)} />
                     <Button aria-label="Post" className="btn btn-primary btn-block" disabled={this.state.comment.length === 0 } onClick={(e) => this.postComment(e)} >Post</Button>
                 </form>
