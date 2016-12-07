@@ -10,7 +10,7 @@ class Saved extends React.Component {
             <div>
                 <h2>Saved Works</h2>
                 <Alert>
-                    <p>Here is where your saved posts are! You are free to edit or delete them at any time!</p>
+                    <p>Here is where your saved works are! You are free to edit or delete them at any time!</p>
                     <p>If you want to post them, however, you need to click on the edit button first and click on "Post."</p>
                 </Alert>
                 <div>
