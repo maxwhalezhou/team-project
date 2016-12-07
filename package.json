@@ -1,5 +1,7 @@
 {
   "name": "team-project",
+  "author": "Arden Kim, Nancy Tran, Maxwell Zhou, Christa Joy Jaeger",
+  "homepage": "https://maxwhalezhou.github.io/team-project/build",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
