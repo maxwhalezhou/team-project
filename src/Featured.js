@@ -1,5 +1,5 @@
 import React from "react";
-import { hashHistory, Link } from "react-router";
+import { hashHistory} from "react-router";
 import {Button} from "react-bootstrap";
 import firebase from "firebase";
 
@@ -96,7 +96,6 @@ class PostItem extends React.Component {
             text = text.substring(0, 250) +"...";
         }
         var comment = '';
-        console.log(this.props.post.comment);
         if(this.props.post.comments !== undefined){
             comment =  Object.keys(this.props.post.comments).length;
         }else{
@@ -112,7 +111,7 @@ class PostItem extends React.Component {
                     {text}
                 </div>
                 <div className="panel-footer">
-                        <Button bsSize="small" bsStyle='primary' onClick={(e) => this.handleClick(e)}>Read More</Button>
+                    <Button bsSize="small" bsStyle='primary' onClick={(e) => this.handleClick(e)}>Read More</Button>
                 </div>
             </div>
             );

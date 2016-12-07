@@ -1,5 +1,5 @@
 import React from "react";
-import { hashHistory, Link } from "react-router";
+import { hashHistory } from "react-router";
 import firebase from "firebase";
 
 class NewPost extends React.Component {
@@ -68,7 +68,6 @@ class NewPost extends React.Component {
 
   // how to display
   render() {
-    var currentUser = firebase.auth().currentUser; //get the curent user
     return (
       <div className="message-box write-message" role="region">
         <h2>Make a New Story!</h2>

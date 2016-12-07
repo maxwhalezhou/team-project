@@ -45,6 +45,7 @@ class Login extends React.Component {
   signIn(event) {
     /* Sign in the user */
     event.preventDefault();
+    
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
       .catch(err => this.setState({'error':true})); //Incorrect email or password
   }
@@ -83,7 +84,7 @@ class Login extends React.Component {
               <p className="help-block">Needs to be at least 6 characters.</p>  
             }
           </div>
-          {this.state.error && <p className="help-block">Incorrent email or password</p> } 
+          {this.state.error && <p className="help-block">Incorrect email or password</p> } 
           <button className="btn btn-default" disabled={!signInEnabled} onClick={(e) => this.signIn(e)}>Sign-In</button>
         </form>
         <p className="small help-block">New user? Click <Link to="/join">here</Link> to sign up!</p>

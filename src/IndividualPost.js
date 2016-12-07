@@ -1,6 +1,6 @@
 import React from "react";
-import { hashHistory, Link } from "react-router";
 import { Modal, Button, Alert } from "react-bootstrap";
+import { hashHistory} from "react-router";
 import firebase from "firebase";
 import Time from "react-time";
 
@@ -9,9 +9,8 @@ class IndividualPost extends React.Component {
         super(props);
         this.state = { post: undefined };
     }
-
+    
     render() {
-        var currentUser = firebase.auth().currentUser; //get the curent user
         return (
             <div>
             { !this.state.post &&
@@ -37,14 +36,21 @@ class IndividualPost extends React.Component {
         );
     }
     componentDidMount(){
+        var unregister = firebase.auth().onAuthStateChanged(user => {
+            if(user) {
+                console.log('Auth state changed: logged in as', user.email);
+            }else{
+                unregister();
+                console.log('Auth state changed: logged out');
+                hashHistory.push('/login/');
+            }
+        });
         this.searchPosts(this.props.params);
     }
     searchPosts(param) {
         //only executes if there is a channel param
         //getting the last 100 posts
         var postKey = param.post;
-        console.log("post key", postKey);
-
         var postsRef = firebase.database().ref("Users");
         var thisPost = "placeholder";
         postsRef.on('value', (snapshot) => {
@@ -52,7 +58,6 @@ class IndividualPost extends React.Component {
 
             snapshot.forEach(function (child) {
                 if(child.val().published){
-                    var postKeys = Object.keys(child.val().published)
                     var post = child.val().published[postKey];
                     // post.key = postKey; //save the unique id for later
                     if (post) {
@@ -60,11 +65,8 @@ class IndividualPost extends React.Component {
                     }
                 }
             });
-            //sorting the array by time
-            //thisPost.sort((a,b) => a.comments.length - b.comments.lengh); //reverse order
 
             this.setState({ post: thisPost });
-            console.log("**********", thisPost);
         });
     }
 }
@@ -133,7 +135,6 @@ class CommentList extends React.Component {
     }
 
     getComments() {
-        console.log("comments from " + 'Users/' + this.props.writer + '/published/' + this.props.post + '/comments');
         var commentsRef = firebase.database().ref('Users/' + this.props.writer + '/published/' + this.props.post + '/comments'); //the chats in the channel
         var commentArray = []; //could also do this processing in render
         commentsRef.on('value', (snapshot) => {
@@ -142,9 +143,8 @@ class CommentList extends React.Component {
                 comment.key = child.key; //save the unique id for later
                 commentArray.push(comment); //make into an array
             });
-            this.state.comments = commentArray;
+            this.setState({comments:commentArray});
         });
-        console.log("comments list", this.state.comments);
     }
 
     render() {
@@ -255,13 +255,11 @@ class EditModal extends React.Component {
 
 class DeleteModal extends React.Component {
     deleteComment() {
-        console.log("Users/" + this.props.postWriter + "/published/" + this.props.post + "/comments/" + this.props.comment.key);
         var commentRef = firebase.database().ref("Users/" + this.props.postWriter + "/published/" + this.props.post + "/comments/" + this.props.comment.key);
         commentRef.remove();
     }
 
     render() {
-        console.log("post writer!", this.props.postWriter);
         return (
             <Modal {...this.props} bsSize="small" aria-labelledby="contained-modal-title-sm">
                 <Modal.Header closeButton>

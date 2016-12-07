@@ -1,5 +1,5 @@
 import React from "react";
-import { hashHistory, Link } from "react-router";
+import { hashHistory } from "react-router";
 import { Modal, Button, Alert } from "react-bootstrap";
 import firebase from "firebase";
 
@@ -74,7 +74,7 @@ class PostItem extends React.Component {
     render() {
         var text = this.props.post.text;
         if (this.props.post.text.length > 200) {
-            var text = text.substring(0, 200) + "...";
+            text = text.substring(0, 200) + "...";
         }
 
         let editClose = () => this.setState({ editShow: false });

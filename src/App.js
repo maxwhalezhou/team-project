@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Router, Route, hashHistory, Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap';
 import firebase from "firebase";
@@ -19,7 +18,7 @@ class App extends Component {
    componentDidMount() {
     /* Add a listener and callback for authentication events */
   
-    var unregister = firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(user => {
       //if they are logged in it pushes to channel component
       if(user) {
         this.setState({'loggedIn': true});
