@@ -47,17 +47,21 @@ class NewPost extends React.Component {
   savePost(event) {
     event.preventDefault(); //don't submit
 
-    var postsRef = firebase.database().ref('Users/' + firebase.auth().currentUser.uid + '/saved'); //the chats in the channel
+    this.postsRef = firebase.database().ref('Users/' + firebase.auth().currentUser.uid + '/saved'); //the chats in the channel
     var newPost = {
       text: this.state.post,
       userId: firebase.auth().currentUser.uid, //to look up user info
       time: firebase.database.ServerValue.TIMESTAMP, //getting the time
       title: this.state.title
     };
-    postsRef.push(newPost); //upload
+    this.postsRef.push(newPost); //upload
 
     this.setState({ post: '', title: '' }); //empty out post (controlled input)
     hashHistory.push('/saved');//redirecting to saved posts where they can see their new saved story
+  }
+
+  componentWillUnmount = () => {
+    this.postsRef.off();
   }
 
   //testing whether title or post content inputs are empty
@@ -74,16 +78,16 @@ class NewPost extends React.Component {
     var buttonEnabled = (this.validateTitle(this.state.title) && this.validatePost(this.state.post));
     return (
       <div className="message-box write-message" role="region">
-        <h2>Make a New Story!</h2>
+        <h2>Post Your Work!</h2>
         <div className="alert alert-info" role="alert">
-          You can make a new post, which you can either save for later or publish to the website!
+          You can make a new post of your work, which you can either save for later or publish to the website!
         </div>
         <form className="message-input form-group" role="form">
-          <label htmlFor='title'>Title: </label>
-          <input type ="text" id='title' placeholder="Type title here..." name="input" className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
+          <label htmlFor="title">Title: </label>
+          <input type="text" id="title" placeholder="Type title here..." name="input" className="post-form form-control input-lg" onChange={(e) => this.updateTitle(e)} />
          
-          <label htmlFor='newPost' >Content:</label>
-          <textarea id='newPost' role="textbox" aria-multiline="true" placeholder="Type post here..." name="text" className="post-form form-control" onChange={(e) => this.updatePost(e)} rows="5"/>
+          <label htmlFor="newPost" >Content:</label>
+          <textarea id="newPost" role="textbox" aria-multiline="true" placeholder="Type post here..." name="text" className="post-form form-control" onChange={(e) => this.updatePost(e)} rows="5"/>
           
           <div className="form-group new-post">
             {/* Disable if invalid post length */}
@@ -97,4 +101,5 @@ class NewPost extends React.Component {
     );
   }
 }
+
 export default NewPost;
