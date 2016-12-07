@@ -4,6 +4,7 @@ import { Modal, Button, Alert } from "react-bootstrap";
 import firebase from "firebase";
 
 class Saved extends React.Component {
+    // displays the user's saved posts
     render() {
         return (
             <div>
@@ -16,6 +17,7 @@ class Saved extends React.Component {
     }
 }
 
+// creates a list of the user's saved posts
 class PostList extends React.Component {
     constructor(props) {
         super(props);
@@ -24,18 +26,23 @@ class PostList extends React.Component {
 
     componentDidMount() {
         var unregister = firebase.auth().onAuthStateChanged(user => {
+            // if the user is logged in, get their posts
             if (user) {
                 this.getPosts();
             } else {
+                // otherwise, re-direct them to the login page
                 unregister();
                 hashHistory.push('/login');
             }
         });
     }
 
+    // get all of the posts from firebase's database
     getPosts() {
+        // get the database reference on saved posts
         this.savedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved");
 
+        // iterate through each post in the database, and save them
         this.savedPostsRef.on("value", (snapshot) => {
             var savedPostsArray = [];
             snapshot.forEach(function (child) {
@@ -47,15 +54,19 @@ class PostList extends React.Component {
         });
     }
 
+    // unmount the reference to avoid warnings/errors
     componentWillUnmount = () => {
         this.savedPostsRef.off();
     }
 
+    // renders all of the posts
     render() {
+        // map the posts, so they're put into components to render
         var posts = this.state.savedPosts.map((post) => {
             return <PostItem post={post} key={post.key} />
         });
 
+        // display the posts
         return (
             <div>
                 {posts}
@@ -64,6 +75,7 @@ class PostList extends React.Component {
     }
 }
 
+// creates a single saved post
 class PostItem extends React.Component {
     constructor(props) {
         super(props);
@@ -71,34 +83,53 @@ class PostItem extends React.Component {
         this.state = { editShow: false, deleteShow: false, title: this.props.post.title, text: this.props.post.text, saved: false };
     }
 
+    // whenever the user types in the title, update it each time
     updateTitle(event) {
         this.setState({ title: event.target.value });
     }
 
+    // whenever the user types in the post section, update it each time
     updateText(event) {
         this.setState({ text: event.target.value });
     }
 
+    // edits the user's saved post
     editPost(post) {
+        // grab that specific post's reference in firebase
         var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+
+        // change its title and post content
         postRef.child("title").set(this.state.title);
         postRef.child("text").set(this.state.text);
+
+        // set the saved state to be true
         this.setState({ saved: true });
+
+        // after 1.5 seconds, set the saved state back to false
         window.setTimeout(() => {
             this.setState({ saved: false });
         }, 1500);
     }
 
+    // deletes the user's saved post
     deletePost(post) {
+        // grab that specific post's reference in firebase
         var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
+
+        // remove it from firebase
         postRef.remove();
     }
 
+    // posts the user's saved post onto the website
     postPost(post) {
+        // grabs that specific post's reference under firebase's saved posts, and remove it
         var postRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/saved/" + post.key);
         postRef.remove();
 
+        // grab the database reference to the user's published posts
         var publishedPostsRef = firebase.database().ref("Users/" + firebase.auth().currentUser.uid + "/published");
+
+        // because the state has the saved post's data, create a new published post
         var publishPost = {
             handle: firebase.auth().currentUser.displayName,
             text: this.state.text,
@@ -106,20 +137,27 @@ class PostItem extends React.Component {
             title: this.state.title,
             userId: firebase.auth().currentUser.uid
         };
+
+        // push the published post onto firebase
         publishedPostsRef.push(publishPost);
     }
 
+    // renders each saved post
     render() {
+        // create a preview of the post
         var text = this.props.post.text;
         if (this.props.post.text.length > 200) {
             text = text.substring(0, 200) + "...";
         }
 
+        // set up the Modals' display states
         let editClose = () => this.setState({ editShow: false });
         let deleteClose = () => this.setState({ deleteShow: false });
 
+        // displays each saved post
         return (
             <div>
+                {/* A saved post */}
                 <div className="panel panel-default panel-info">
                     <div className="panel-heading">
                         <h3 className="panel-title">{this.props.post.title}</h3>
@@ -133,6 +171,7 @@ class PostItem extends React.Component {
                     </div>
                 </div>
 
+                {/* A Modal for editing the post */}
                 <Modal show={this.state.editShow} onHide={editClose} bsSize="large" aria-labelledby="contained-modal-title-lg">
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-lg">
@@ -141,6 +180,7 @@ class PostItem extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <textarea defaultValue={this.props.post.text} className="post-form form-control" onChange={(e) => this.updateText(e)} />
+                        {/* If the post has been edited, display an alert to the user, and remove the alert after 1.5 seconds */}
                         {this.state.saved &&
                             <Alert bsStyle="success">
                                 <strong>Saved!</strong>
@@ -153,15 +193,16 @@ class PostItem extends React.Component {
                     </Modal.Footer>
                 </Modal>
 
+                {/* A Modal for deleting the post */}
                 <Modal show={this.state.deleteShow} onHide={deleteClose} bsSize="small" aria-labelledby="contained-modal-title-sm">
                     <Modal.Header closeButton>
                         <Modal.Title id="contained-modal-title-sm">
                             Deleting "{this.props.post.title}"
-                    </Modal.Title>
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         Are you sure?
-                </Modal.Body>
+                    </Modal.Body>
                     <Modal.Footer>
                         <Button bsStyle="danger" onClick={() => this.deletePost(this.props.post)}>Yes</Button>
                         <Button onClick={deleteClose}>No</Button>
