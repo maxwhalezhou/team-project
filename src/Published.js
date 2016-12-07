@@ -25,11 +25,9 @@ class PostList extends React.Component {
     componentDidMount() {
         var unregister = firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                console.log('Auth state changed: logged in as', user.email);
                 this.getPosts();
             } else {
                 unregister();
-                console.log('Auth state changed: logged out');
                 hashHistory.push('/login');
             }
         });
@@ -86,7 +84,7 @@ class PostItem extends React.Component {
                     <div className="panel-heading">
                         <h3 className="panel-title">{this.props.post.title}</h3>
                     </div>
-                    <div className="panel-body">
+                    <div className="panel-body white-space">
                         {text}
                     </div>
                     <div className="panel-footer">

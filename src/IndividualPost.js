@@ -9,7 +9,41 @@ class IndividualPost extends React.Component {
         super(props);
         this.state = { post: undefined };
     }
-    
+    componentDidMount(){
+        var unregister = firebase.auth().onAuthStateChanged(user => {
+            if(user) {
+            }else{
+                unregister();
+                hashHistory.push('/login/');
+            }
+        });
+        this.searchPosts(this.props.params);
+    }
+    searchPosts(param) {
+        //only executes if there is a channel param
+        //getting the last 100 posts
+        var postKey = param.post;
+        var postsRef = firebase.database().ref("Users");
+        this.savedPostsRef = postsRef;
+        var thisPost = "placeholder";
+        postsRef.on('value', (snapshot) => {
+            //going through posts and pushing the value into array
+
+            snapshot.forEach(function (child) {
+                if(child.val().published){
+                    var post = child.val().published[postKey];
+                    // post.key = postKey; //save the unique id for later
+                    if (post) {
+                        thisPost = post;
+                    }
+                }
+            });
+            this.setState({ post: thisPost });
+        });
+    }
+     componentWillUnmount = () => {
+        this.savedPostsRef.off();
+    }
     render() {
         return (
             <div>
@@ -35,38 +69,7 @@ class IndividualPost extends React.Component {
             </div>
         );
     }
-    componentDidMount(){
-        var unregister = firebase.auth().onAuthStateChanged(user => {
-            if(user) {
-            }else{
-                unregister();
-                hashHistory.push('/login/');
-            }
-        });
-        this.searchPosts(this.props.params);
-    }
-    searchPosts(param) {
-        //only executes if there is a channel param
-        //getting the last 100 posts
-        var postKey = param.post;
-        var postsRef = firebase.database().ref("Users");
-        var thisPost = "placeholder";
-        postsRef.on('value', (snapshot) => {
-            //going through posts and pushing the value into array
-
-            snapshot.forEach(function (child) {
-                if(child.val().published){
-                    var post = child.val().published[postKey];
-                    // post.key = postKey; //save the unique id for later
-                    if (post) {
-                        thisPost = post;
-                    }
-                }
-            });
-
-            this.setState({ post: thisPost });
-        });
-    }
+  
 }
 
 class PostForm extends React.Component {
