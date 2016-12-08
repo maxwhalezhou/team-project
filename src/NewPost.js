@@ -47,21 +47,17 @@ class NewPost extends React.Component {
   savePost(event) {
     event.preventDefault(); //don't submit
 
-    this.postsRef = firebase.database().ref('Users/' + firebase.auth().currentUser.uid + '/saved'); //the chats in the channel
+    var postsRef = firebase.database().ref('Users/' + firebase.auth().currentUser.uid + '/saved'); //the chats in the channel
     var newPost = {
       text: this.state.post,
       userId: firebase.auth().currentUser.uid, //to look up user info
       time: firebase.database.ServerValue.TIMESTAMP, //getting the time
       title: this.state.title
     };
-    this.postsRef.push(newPost); //upload
+    postsRef.push(newPost); //upload
 
     this.setState({ post: '', title: '' }); //empty out post (controlled input)
     hashHistory.push('/saved');//redirecting to saved posts where they can see their new saved story
-  }
-
-  componentWillUnmount = () => {
-    this.postsRef.off();
   }
 
   //testing whether title or post content inputs are empty
