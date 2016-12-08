@@ -35,24 +35,27 @@ class App extends Component {
             <Navbar collapseOnSelect>
               <Navbar.Header>
                 <Navbar.Brand>
-                    <a href="#">Damaged Blue Zone</a>
+                    <a href="#">Writer's Notebook</a>
                 </Navbar.Brand>
                 <Navbar.Toggle />
               </Navbar.Header>
               <Navbar.Collapse>
                 <Nav>
                   <NavDropdown title="Navigate" id="basic-nav-dropdown">
-                    <LinkContainer to={'/featured'}><MenuItem>**HOT** Works</MenuItem></LinkContainer>
-                    <LinkContainer to={'/saved'}><MenuItem>Saved Posts</MenuItem></LinkContainer>
-                    <LinkContainer to={'/published'}><MenuItem>Published Posts</MenuItem></LinkContainer>
+                    <LinkContainer to={'/featured'}><MenuItem><strong>HOT</strong> Works</MenuItem></LinkContainer>
+                    <LinkContainer to={'/saved'}><MenuItem>Saved Works</MenuItem></LinkContainer>
+                    <LinkContainer to={'/published'}><MenuItem>Published Works</MenuItem></LinkContainer>
                     <LinkContainer to={'/search'}><MenuItem>Search</MenuItem></LinkContainer>
-                    <LinkContainer to={'/newpost'}><MenuItem>Make a New Post!</MenuItem></LinkContainer>
+                    <LinkContainer to={'/newpost'}><MenuItem>Post Your Work!</MenuItem></LinkContainer>
                   </NavDropdown>
                 </Nav>
                 <Nav pullRight>
-                  <NavItem>
+                  <NavItem onClick={() => this.signOut()}>
                     {firebase.auth().currentUser &&
-                    <button className="btn btn-warning float-btn" onClick={() => this.signOut()}>Sign out</button>
+                      <div className="sign-out">
+                        Sign Out{' '}
+                        <span className="glyphicon glyphicon-log-out" aria-label="Log Out" />
+                      </div>
                     }
                   </NavItem>
                 </Nav>

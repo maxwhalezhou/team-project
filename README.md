@@ -1,38 +1,38 @@
-# Damaged Blue Zone
+# Writer's Notebook
 
-[Damaged Blue Zone](https://maxwhalezhou.github.io/team-project/build/#/login/) is a website intended to create a sense of community amongst aspiring writers and help everyone improve their writing and critiquing skills.
+[Writer's Notebook](https://maxwhalezhou.github.io/team-project/#/login/) is a website intended to create a sense of community amongst aspiring writers and help everyone improve their writing and critiquing skills.
 
 This application requires you to sign in (or sign up) with an email address, password, and a handle (i.e., display name) in order to fully access it. After doing so, you can post your written works in order to gain feedback from other users!
 
 ## Website Navigation
-- [HOT Posts](#HOT-posts)
-- [Saved Posts](#saved-posts)
-- [Published Posts](#published-posts)
+- [HOT Works](#HOT-works)
+- [Saved Works](#saved-works)
+- [Published Works](#published-works)
 - [Search](#search)
-- [Make a New Post!](#make-a-new-post)
+- [Post Your Work!](#post-your-work)
 
-## HOT Posts
-Here is where the "hottest" posts (i.e., those with the most comments) appear! Each post goes in descending order from the greatest amount of comments to the least amount of comments.
+## HOT Works
+Here is where the "hottest" works (i.e., those with the most comments) appear! Each post goes in descending order from the greatest amount of comments to the least amount of comments.
 
-If you want others to check our your posts (or if you want to check out the hottest posts), check out this section!
+If you want others to check our your works (or if you want to check out the hottest works), check out this section!
 
-## Saved Posts
-Here is where your saved posts are! You are free to edit or delete them at any time!
+## Saved Works
+Here is where your saved works are! You are free to edit or delete them at any time!
 
 If you want to post them, however, you need to click on the edit button first and click on "Post." (This is to ensure that you don't accidentally post something.)
 
-## Published Posts
-Here is where your published posts are! You are also free to edit or delete them at any time in this section!
+## Published Works
+Here is where your published works are! You are also free to edit or delete them at any time in this section!
 
 You can also easily check out a post and its comments on the website by clicking on "Read More."
 
 ## Search
-Don't want to look for posts under featured posts? No problem! Just go ahead and search through any of the posts on this website!
+Don't want to look for works under featured works? No problem! Just go ahead and search through any of the works on this website!
 
-## Make a New Post
-Here is where you can make a new post, which you can either save for later or publish to the website!
+## Post Your Work!
+You can make a new post of your work, which you can either save for later or publish to the website!
 
 ## CREDITS
-This project was created for INFO 343 in Autumn 2016 at the University of Washington by Damaged Blue Zone (Christa Joy Jaeger, Arden Kim, Nancy Tran, Maxwell Zhou).
+This project was created for INFO 343 in Autumn 2016 at the University of Washington by Christa Joy Jaeger, Arden Kim, Nancy Tran, Maxwell Zhou.
 
 This project was created with [Create React App](https://github.com/facebookincubator/create-react-app).

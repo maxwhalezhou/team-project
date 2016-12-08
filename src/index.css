@@ -30,3 +30,8 @@ textarea {
 .btn-space {
     margin-left: 10px;
 }
+
+/* margin spacing for sign out button */
+.sign-out {
+  margin-right: 15px;
+}
