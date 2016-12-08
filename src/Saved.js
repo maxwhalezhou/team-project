@@ -9,11 +9,11 @@ class Saved extends React.Component {
         return (
             <div>
                 <h2>Saved Works</h2>
-                <Alert>
+                <Alert role="alert">
                     <p>Here is where your saved works are! You are free to edit or delete them at any time!</p>
                     <p>If you want to post them, however, you need to click on the edit button first and click on "Post."</p>
                 </Alert>
-                <div>
+                <div role="region">
                     <PostList />
                 </div>
             </div>
@@ -170,7 +170,7 @@ class PostItem extends React.Component {
         return (
             <div>
                 {/* A saved post */}
-                <div className="panel panel-default panel-info" aria-labelledby="a saved work">
+                <div role="region" className="panel panel-default panel-info" aria-labelledby="a saved work">
                     <div className="panel-heading" aria-labelledby="a saved work's title">
                         <h3 className="panel-title">{this.props.post.title}</h3>
                     </div>
