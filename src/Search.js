@@ -60,7 +60,9 @@ class SearchResults extends React.Component {
         });
     }
     componentWillUnmount = () => {
-        this.postsRef.off();
+        if(this.state.searched){
+            this.postsRef.off();
+        }
     }
 
     render() {
