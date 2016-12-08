@@ -82,10 +82,10 @@ class SearchResults extends React.Component {
         //return search bar and results
         return (
             <div>
-                <div role='form' className="input-group">
-                    <input aria-label='search' type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
+                <div role='form' className="input-group" aria-labelledby="search form">
+                    <input aria-label='search' type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} aria-labelledby="search input"/>
                     <span className="input-group-btn">
-                        <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
+                        <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)} aria-labelledby="search button">Search</button>
                     </span>
                 </div>
                 <div role='region'>
@@ -113,7 +113,5 @@ class Search extends React.Component {
         );
     }
 }
-
-
 
 export default Search;
