@@ -82,13 +82,13 @@ class SearchResults extends React.Component {
         //return search bar and results
         return (
             <div>
-                <div className="input-group">
-                    <input type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
+                <div role='form' className="input-group">
+                    <input aria-label='search' type="text" placeholder="Search posts here" className="form-control" id="search" value={this.state.value} onChange={this.handleChange.bind(this)} />
                     <span className="input-group-btn">
                         <button className="btn btn-primary" onClick={(e) => this.searchPosts(e)}>Search</button>
                     </span>
                 </div>
-                <div>
+                <div role='region'>
                     {postItems}
                 </div>
             </div>
@@ -102,7 +102,7 @@ class Search extends React.Component {
 
     render() {
         return (
-            <div>
+            <div role="region">
                 <h1>Search</h1>
                 <div className="alert alert-info" role="alert">
                     Don't want to look for works under featured works?
